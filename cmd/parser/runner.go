@@ -16,6 +16,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"sort"
 )
 
 func main() {
@@ -30,6 +31,9 @@ func main() {
 
 	for _, b := range c.Blocks {
 		fmt.Printf("%v\n", b.Type)
+		if contains(b.Labels, "aws_instance") {
+			parseEC2(b, s)
+		}
 	}
 	// create new file on system
 	tfFile, err := os.Create("bservelist.tf")
@@ -44,6 +48,21 @@ func main() {
 	if err != nil {
 		fmt.Printf("Error writing file %v", err)
 	}
+}
+
+func parseEC2(b *hcl.Block, s *schema.BodySchema) {
+	fmt.Printf("body: %v\n", b.Body)
+	otherbody, diag := b.Body.Content(s.ToHCLSchema())
+	if diag.HasErrors() {
+		fmt.Printf("aws errors: %v", diag.Error())
+	}
+	attr := otherbody.Attributes
+	fmt.Printf("attributes: %v\n", attr)
+}
+
+func contains(s []string, searchterm string) bool {
+	i := sort.SearchStrings(s, searchterm)
+	return i < len(s) && s[i] == searchterm
 }
 
 func mergeSchema() *schema.BodySchema {
