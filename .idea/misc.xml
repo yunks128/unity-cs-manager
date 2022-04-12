@@ -7,19 +7,15 @@
     <option name="openedFilesInfos">
       <list>
         <OpenedFileInfo>
-          <option name="caretOffset" value="83" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/go.mod" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
           <option name="caretOffset" value="0" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/test/ec2.tf" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="5000118" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/test/provider.json" />
+          <option name="caretOffset" value="796" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/go.mod" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="551" />
+          <option name="caretOffset" value="908" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/cmd/parser/runner.go" />
         </OpenedFileInfo>
       </list>
