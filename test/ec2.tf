@@ -8,7 +8,7 @@ resource "aws_instance" "unity-ec2-instance" {
   instance_type = "t3.xlarge"
   key_name = var.ami_key_pair_name
   vpc_security_group_ids = [aws_security_group.ingress-all-test.id]
-  tags = {
+  tags {
     Name = var.ami_name
     Deployment = "unity-demo"
   }
