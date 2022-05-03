@@ -26,8 +26,33 @@ func parseElastic(f *hclwrite.File) error {
 	if err != nil {
 		return err
 	}
-	//Cluster Config
 
+	//Cluster Config
+	baf = NewBlockAppendFilter(bl, "cluster_config", true)
+	f, err = baf.Filter(f)
+	if err != nil {
+		return err
+	}
+	aaf = NewAttributeAppendFilter(fmt.Sprintf("%v.cluster_config.instance_type", bl), "i2.xlarge.elasticsearch", false)
+	f, err = aaf.Filter(f)
+	if err != nil {
+		return err
+	}
+	aaf = NewAttributeAppendFilter(fmt.Sprintf("%v.cluster_config.instance_count", bl), "2", false)
+	f, err = aaf.Filter(f)
+	if err != nil {
+		return err
+	}
+	aaf = NewAttributeAppendFilter(fmt.Sprintf("%v.cluster_config.zone_awareness_enabled", bl), "true", false)
+	f, err = aaf.Filter(f)
+	if err != nil {
+		return err
+	}
+	baf = NewBlockAppendFilter(bl+".cluster_config", ".zone_awareness_config", true)
+	f, err = baf.Filter(f)
+	if err != nil {
+		return err
+	}
 	//VPC Options
 
 	//EBS OPTION
