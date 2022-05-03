@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	fbyte, err := ioutil.ReadFile("test/ec2.tf")
+	fbyte, err := ioutil.ReadFile("test/elastic.tf")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -20,7 +20,8 @@ func main() {
 	//fmt.Printf("%v", string(fwr.Bytes()))
 	//aaf := NewAttributeAppendFilter("resource.aws_instance.unity-ec2-instance.tags.unityname", "mytag", false)
 	//fwr, err = aaf.Filter(fwr)
-	err = addTagsToBlocks(fwr)
+	//err = addTagsToBlocks(fwr)
+	err = parseElastic(fwr)
 	if err != nil {
 		fmt.Printf("%v", err)
 	}
