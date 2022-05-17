@@ -5,6 +5,8 @@ import (
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/hcl/v2/hclwrite"
 	"io/ioutil"
+	"log"
+	"strings"
 )
 
 func main() {
@@ -21,9 +23,29 @@ func main() {
 	//aaf := NewAttributeAppendFilter("resource.aws_instance.unity-ec2-instance.tags.unityname", "mytag", false)
 	//fwr, err = aaf.Filter(fwr)
 	//err = addTagsToBlocks(fwr)
-	err = parseElastic(fwr)
+	blocks, err := getBlocks(fwr)
 	if err != nil {
-		fmt.Printf("%v", err)
+		log.Fatal("%v", err)
+	}
+	for _, b := range blocks {
+		fmt.Println(b)
+		splits := strings.Split(b, ".")
+		blocktype := ""
+		if len(splits) > 1 {
+			blocktype = splits[1]
+		}
+		switch blocktype {
+		case "aws_elasticsearch_domain":
+			//err = parseElastic(fwr, "resource.aws_elasticsearch_domain.unity-sample")
+			err = parseElastic(fwr, blocktype)
+			if err != nil {
+				fmt.Printf("%v", err)
+			}
+		case "aws_instance":
+			fmt.Println("two")
+		case "":
+			fmt.Println("three")
+		}
 	}
 	fmt.Printf("%v", string(fwr.Bytes()))
 

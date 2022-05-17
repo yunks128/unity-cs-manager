@@ -40,7 +40,7 @@ provider "aws" {
 
 resource "aws_elasticsearch_domain" "unity-sample" {
   domain_name           = "unityexample"
-
+  elasticsearch_version = 7.11
   cluster_config {
     instance_type = "i2.xlarge.elasticsearch"
     instance_count = 2

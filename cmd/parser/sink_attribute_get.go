@@ -2,10 +2,46 @@ package main
 
 import (
 	"errors"
+	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/hashicorp/hcl/v2/hclwrite"
 	"strings"
 )
 
+// AttributeGetSink is a sink implementation for getting a value of attribute.
+type AttributeGetSink struct {
+	address string
+}
+
+var _ Sink = (*AttributeGetSink)(nil)
+
+// NewAttributeGetSink creates a new instance of AttributeGetSink.
+func NewAttributeGetSink(address string) Sink {
+	return &AttributeGetSink{
+		address: address,
+	}
+}
+
+// Sink reads HCL and writes value of attribute.
+func (s *AttributeGetSink) Sink(inFile *hclwrite.File) ([]string, error) {
+	attr, _, err := findAttribute(inFile.Body(), s.address)
+	if err != nil {
+		return nil, err
+	}
+
+	// not found
+	if attr == nil {
+		return []string{}, nil
+	}
+
+	// treat expr as a string without interpreting its meaning.
+	out, err := GetAttributeValueAsString(attr)
+
+	if err != nil {
+		return []string{}, err
+	}
+
+	return []string{out + "\n"}, nil
+}
 func findAttribute(body *hclwrite.Body, address string) (*hclwrite.Attribute, *hclwrite.Body, error) {
 	if len(address) == 0 {
 		return nil, nil, errors.New("failed to parse address. address is empty")
@@ -43,4 +79,24 @@ func findAttribute(body *hclwrite.Body, address string) (*hclwrite.Attribute, *h
 
 	// not found
 	return nil, nil, nil
+}
+
+func GetAttributeValueAsString(attr *hclwrite.Attribute) (string, error) {
+	// find TokenEqual
+	expr := attr.Expr()
+	exprTokens := expr.BuildTokens(nil)
+
+	// append tokens until find TokenComment
+	var valueTokens hclwrite.Tokens
+	for _, t := range exprTokens {
+		if t.Type == hclsyntax.TokenComment {
+			break
+		}
+		valueTokens = append(valueTokens, t)
+	}
+
+	// TokenIdent records SpaceBefore, but we should ignore it here.
+	value := strings.TrimSpace(string(valueTokens.Bytes()))
+
+	return value, nil
 }

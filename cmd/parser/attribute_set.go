@@ -8,14 +8,23 @@ import (
 	"github.com/hashicorp/hcl/v2/hclwrite"
 )
 
-// attributeSet is a filter implementation for attribute.
-type attributeSet struct {
+type AttributeSetFilter struct {
 	address string
 	value   string
 }
 
+var _ Filter = (*AttributeSetFilter)(nil)
+
+// NewAttributeSetFilter creates a new instance of AttributeSetFilter.
+func NewAttributeSetFilter(address string, value string) Filter {
+	return &AttributeSetFilter{
+		address: address,
+		value:   value,
+	}
+}
+
 // Filter reads HCL and updates a value of matched an attribute at a given address.
-func (f *attributeSet) Filter(inFile *hclwrite.File) (*hclwrite.File, error) {
+func (f *AttributeSetFilter) Filter(inFile *hclwrite.File) (*hclwrite.File, error) {
 	attr, body, err := findAttribute(inFile.Body(), f.address)
 	if err != nil {
 		return nil, err
