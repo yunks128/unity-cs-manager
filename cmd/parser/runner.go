@@ -25,7 +25,7 @@ func main() {
 	//err = addTagsToBlocks(fwr)
 	blocks, err := getBlocks(fwr)
 	if err != nil {
-		log.Fatal("%v", err)
+		log.Fatalf("%v", err)
 	}
 	for _, b := range blocks {
 		fmt.Println(b)
