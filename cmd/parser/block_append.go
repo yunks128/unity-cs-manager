@@ -69,6 +69,12 @@ func findBlocks(b *hclwrite.Body, typeName string, labels []string) []*hclwrite.
 	var matched []*hclwrite.Block
 	for _, block := range b.Blocks() {
 		if typeName == block.Type() {
+			if len(labels) > 2 {
+				rblock := findNestedBlocks(block.Body().Blocks(), labels[2:])
+				if rblock != nil {
+					matched = append(matched, rblock)
+				}
+			}
 			labelNames := block.Labels()
 			if len(labels) == 0 && len(labelNames) == 0 {
 				matched = append(matched, block)
@@ -81,6 +87,19 @@ func findBlocks(b *hclwrite.Body, typeName string, labels []string) []*hclwrite.
 	}
 
 	return matched
+}
+
+func findNestedBlocks(blocks []*hclwrite.Block, labels []string) *hclwrite.Block {
+	for i, bl := range blocks {
+		if bl.Type() == labels[i] {
+			if len(labels) > 1 {
+				findNestedBlocks(bl.Body().Blocks(), labels[1:])
+			} else {
+				return bl
+			}
+		}
+	}
+	return nil
 }
 
 func matchLabels(lhs []string, rhs []string) bool {
