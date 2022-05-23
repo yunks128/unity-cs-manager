@@ -1,4 +1,4 @@
-package main
+package hclparser
 
 import (
 	"fmt"
@@ -34,7 +34,7 @@ func (f *AttributeSetFilter) Filter(inFile *hclwrite.File) (*hclwrite.File, erro
 		a := strings.Split(f.address, ".")
 		attrName := a[len(a)-1]
 
-		// To delegate expression parsing to the hclwrite parser,
+		// To delegate expression parsing to the hclwrite parse,
 		// We build a new expression and set back to the attribute by tokens.
 		expr, err := buildExpression(attrName, f.value)
 		if err != nil {

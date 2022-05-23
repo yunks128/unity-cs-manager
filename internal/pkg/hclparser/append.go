@@ -1,4 +1,4 @@
-package main
+package hclparser
 
 import (
 	"errors"
@@ -59,7 +59,7 @@ func (f *AttributeAppendFilter) Filter(inFile *hclwrite.File) (*hclwrite.File, e
 		}
 	}
 
-	// To delegate expression parsing to the hclwrite parser,
+	// To delegate expression parsing to the hclwrite parse,
 	// We build a new expression and set back to the attribute by tokens.
 	expr, err := buildExpression(attrName, f.value)
 	if err != nil {
@@ -149,7 +149,7 @@ func safeParseConfig(src []byte, filename string, start hcl.Pos) (f *hclwrite.Fi
 			// Set a return value from panic recover
 			e = fmt.Errorf(`failed to parse input: %s
 panic: %s
-This may be caused by a bug in the hclwrite parser`, filename, err)
+This may be caused by a bug in the hclwrite parse`, filename, err)
 		}
 	}()
 

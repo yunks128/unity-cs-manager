@@ -1,4 +1,4 @@
-package main
+package hclparser
 
 import "github.com/hashicorp/hcl/v2/hclwrite"
 

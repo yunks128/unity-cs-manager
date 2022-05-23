@@ -1,32 +1,9 @@
-package main
+package hclparser
 
 import (
 	"fmt"
 	"github.com/hashicorp/hcl/v2/hclwrite"
 )
-
-func addAttribute(f *hclwrite.File, name string, value string, replace bool) (*hclwrite.File, error) {
-	if !checkAttribute(f, name) {
-		aaf := NewAttributeAppendFilter(name, value, false)
-		return aaf.Filter(f)
-	} else if replace {
-		aaf := NewAttributeSetFilter(name, value)
-		return aaf.Filter(f)
-	}
-	return f, nil
-}
-
-func checkAttribute(f *hclwrite.File, name string) bool {
-	aaf := NewAttributeGetSink(name)
-	resp, err := aaf.Sink(f)
-	if err != nil {
-		return false
-	}
-	if len(resp) > 0 {
-		return true
-	}
-	return false
-}
 
 func parseElastic(f *hclwrite.File, bl string) error {
 
@@ -83,10 +60,14 @@ func parseElastic(f *hclwrite.File, bl string) error {
 	if err != nil {
 		fmt.Printf("%v", err)
 	}
+
+	//TODO
 	f, err = addAttribute(f, fmt.Sprintf("%v.vpc_options.subnet_ids", bl), "[\n      aws_subnet.subnet-uno.id,\n      aws_subnet.subnet-two.id,\n    ]", false)
 	if err != nil {
 		fmt.Printf("%v", err)
 	}
+
+	//TODO
 	f, err = addAttribute(f, fmt.Sprintf("%v.vpc_options.security_group_ids", bl), "[aws_security_group.es.id]", false)
 	if err != nil {
 		fmt.Printf("%v", err)
