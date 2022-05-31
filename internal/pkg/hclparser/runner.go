@@ -20,7 +20,6 @@ type tag struct {
 
 func Runp(path string, tags, subnet, secgroup []string) {
 
-	fmt.Printf("hello")
 	items, _ := ioutil.ReadDir(path)
 	for _, item := range items {
 		if item.IsDir() {
@@ -35,6 +34,7 @@ func Runp(path string, tags, subnet, secgroup []string) {
 		} else {
 			// handle file there
 			fmt.Println(item.Name())
+			parseFile(path + "/" + item.Name())
 		}
 	}
 }
@@ -71,10 +71,16 @@ func parseFile(path string) {
 			if err != nil {
 				fmt.Printf("%v", err)
 			}
+		case "aws":
+			err = parseProvider(fwr, blocktype)
+			if err != nil {
+				fmt.Printf("%v", err)
+			}
 		case "":
 			fmt.Println("three")
 		}
 	}
+	fmt.Printf("%v", string(fwr.Bytes()))
 	//func main() {
 	//
 	//	fbyte, err := ioutil.ReadFile("test/elastic.tf")

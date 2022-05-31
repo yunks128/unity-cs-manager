@@ -68,7 +68,8 @@ func parseAddress(address string) (string, []string, error) {
 func findBlocks(b *hclwrite.Body, typeName string, labels []string) []*hclwrite.Block {
 	var matched []*hclwrite.Block
 	for _, block := range b.Blocks() {
-		if typeName == block.Type() {
+		t := block.Type()
+		if typeName == t {
 			if len(labels) > 2 {
 				rblock := findNestedBlocks(block.Body().Blocks(), labels[2:])
 				if rblock != nil {
