@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/hcl/v2/hclwrite"
+	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/tagging"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -18,7 +19,7 @@ type tag struct {
 	tags map[string]string
 }
 
-func Runp(path string, tags, subnet, secgroup []string) {
+func Runp(path string, tags tagging.Mandatorytags, subnet, secgroup []string) {
 
 	items, _ := ioutil.ReadDir(path)
 	for _, item := range items {
@@ -28,18 +29,18 @@ func Runp(path string, tags, subnet, secgroup []string) {
 				if !subitem.IsDir() {
 					// handle file there
 					fmt.Println(item.Name() + "/" + subitem.Name())
-					parseFile(item.Name() + "/" + subitem.Name())
+					parseFile(item.Name()+"/"+subitem.Name(), tags)
 				}
 			}
 		} else {
 			// handle file there
 			fmt.Println(item.Name())
-			parseFile(path + "/" + item.Name())
+			parseFile(path+"/"+item.Name(), tags)
 		}
 	}
 }
 
-func parseFile(path string) {
+func parseFile(path string, tags tagging.Mandatorytags) {
 	fbyte, err := ioutil.ReadFile("test/elastic.tf")
 	if err != nil {
 		fmt.Println(err)
@@ -72,7 +73,7 @@ func parseFile(path string) {
 				fmt.Printf("%v", err)
 			}
 		case "aws":
-			err = parseProvider(fwr, blocktype)
+			err = parseProvider(fwr, blocktype, tags)
 			if err != nil {
 				fmt.Printf("%v", err)
 			}
