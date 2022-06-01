@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/components"
 	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/tagging"
 	"log"
 	"os"
@@ -9,7 +10,6 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/hclparser"
 )
 
 var (
@@ -56,7 +56,7 @@ to quickly create a Cobra application.`,
 			validate("([true|false]{1})", userfacing, "userfacing")
 			validate("([0-5]{1})", critinfra, "critinfra")
 			tags := tagging.GenerateMandatoryTags(creator, pocs, venue, project, servicearea, capability, component, capversion, release, securityplan, exposed, experimental, userfacing, critinfra, sourcecontrol)
-			hclparser.Runp(path, tags, subnets, secgroups)
+			components.Runp(path, tags, subnets, secgroups)
 		},
 	}
 )
@@ -101,14 +101,7 @@ func init() {
 	rootCmd.PersistentFlags().StringSliceVarP(&subnets, "subnet", "s", []string{}, "A list of subnet ids")
 	rootCmd.PersistentFlags().StringSliceVarP(&secgroups, "securitygroupids", "g", []string{}, "A list of security group ids")
 	rootCmd.PersistentFlags().StringVarP(&path, "path", "p", "", "the path to the terraform files")
-	//rootCmd.PersistentFlags().Bool("viper", true, "use Viper for configuration")
-	//viper.BindPFlag("author", rootCmd.PersistentFlags().Lookup("author"))
-	//viper.BindPFlag("useViper", rootCmd.PersistentFlags().Lookup("viper"))
-	//viper.SetDefault("author", "NAME HERE <EMAIL ADDRESS>")
-	//viper.SetDefault("license", "apache")
 
-	//rootCmd.AddCommand(addCmd)
-	//rootCmd.AddCommand(initCmd)
 }
 
 func initConfig() {
