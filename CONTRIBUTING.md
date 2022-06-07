@@ -67,13 +67,13 @@ See [this GitHub guide](https://docs.github.com/en/get-started/quickstart/fork-a
 
 #### Find or File an Issue
 
-Make sure people are aware you're working on a patch! Check out our [issue tracking system]([INSERT LINK TO YOUR ISSUE TRACKING SYSTEM]) and find an open issue you'd like to work against, or alternatively file a new issue and mention you're working on a patch.
+Make sure people are aware you're working on a patch! Check out our [issue tracking system](https://github.com/unity-sds/unity-cs-terraform-transformer/issues) and find an open issue you'd like to work against, or alternatively file a new issue and mention you're working on a patch.
 
 #### Choose the Right Branch to Fork
 
 Our project typically has the following branches available, make sure to fork either the default branch or a branch someone else already tagged with a particular issue ticket you're working with.
-- (default) `main`[INSERT DEFAULT VCS BRANCH NAME HERE]
-- [INSERT ADDITIONAL TYPICAL VCS BRANCH NAMES HERE]
+- (default) `main`
+- develop
 
 ### Make your Modifications
 
