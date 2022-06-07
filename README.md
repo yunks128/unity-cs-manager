@@ -20,10 +20,16 @@
 <!-- ☝️ Add badges via: https://shields.io e.g. ![](https://img.shields.io/github/your_chosen_action/your_org/your_repo) ☝️ -->
 
 
-[INSERT MORE DETAILED DESCRIPTION OF YOUR REPOSITORY HERE]
+The project is designed to allow us to parse Terraform scripts written by developers and ensure they will run inside Unity CS. This includes
+adding networking information, ensuring mandatory tags are applied and more. Because the developers wont know the network topology of the AWS
+account the project is being deployed into, they need to be structred in a way that allows us to add this information in at deploy time.
+
+This project parses the scripts, looks up blocks and attributes and makes the required adjustments, adding, removing or appending blocks with 
+the correct information.
 <!-- ☝️ Replace with a more detailed description of your repository, including why it was made and whom its intended for.  ☝️ -->
 
-[INSERT LIST OF IMPORTANT PROJECT / REPO LINKS HERE]
+[Docs/Wiki](https://github.com/unity-sds/unity-cs/wiki/Terraform-Transformer-Component)
+[Issue Tracker](https://github.com/unity-sds/unity-cs-terraform-transformer/issues)
 <!-- example links>
 [Website](INSERT WEBSITE LINK HERE) | [Docs/Wiki](INSERT DOCS/WIKI SITE LINK HERE) | [Discussion Board](INSERT DISCUSSION BOARD LINK HERE) | [Issue Tracker](INSERT ISSUE TRACKER LINK HERE)
 -->
