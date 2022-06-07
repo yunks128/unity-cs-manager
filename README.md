@@ -15,8 +15,8 @@
 
 <!-- Header block for project -->
 
-[![Terraform](https://img.shields.io/badge/Terraform-Could%20be%20worse-brightgreen)]
-[![Golang](https://img.shields.io/badge/Golang-hacked%20together-yellow)] [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+![Terraform](https://img.shields.io/badge/Terraform-Could%20be%20worse-brightgreen)
+![Golang](https://img.shields.io/badge/Golang-hacked%20together-yellow) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 <!-- ☝️ Add badges via: https://shields.io e.g. ![](https://img.shields.io/github/your_chosen_action/your_org/your_repo) ☝️ -->
 
 
