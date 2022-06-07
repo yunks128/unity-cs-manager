@@ -3,7 +3,6 @@ package components
 import (
 	"fmt"
 	"github.com/hashicorp/hcl/v2/hclwrite"
-	"github.com/sethvargo/go-password/password"
 	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/hclparser"
 	"strings"
 )
@@ -101,23 +100,23 @@ func parseElastic(f *hclwrite.File, bl string, subnet []string, securitygroup []
 	if err != nil {
 		fmt.Printf("%v", err)
 	}
-	baf = hclparser.NewBlockAppendFilter(bl, "master_user_options", true)
-	f, err = baf.Filter(f)
-	if err != nil {
-		fmt.Printf("%v", err)
-	}
-	f, err = hclparser.AddAttribute(f, fmt.Sprintf("%v.master_user_options.master_user_name", bl), "admin-"+project+"-"+venue, false)
-	if err != nil {
-		fmt.Printf("%v", err)
-	}
-	res, err := password.Generate(12, 10, 0, false, false)
-	if err != nil {
-		fmt.Printf("%v", err)
-	}
-	f, err = hclparser.AddAttribute(f, fmt.Sprintf("%v.master_user_options.master_user_password", bl), fmt.Sprintf("%v", res), false)
-	if err != nil {
-		fmt.Printf("%v", err)
-	}
+	//baf = hclparser.NewBlockAppendFilter(bl, "master_user_options", true)
+	//f, err = baf.Filter(f)
+	//if err != nil {
+	//	fmt.Printf("%v", err)
+	//}
+	//f, err = hclparser.AddAttribute(f, fmt.Sprintf("%v.master_user_options.master_user_name", bl), "admin-"+project+"-"+venue, false)
+	//if err != nil {
+	//	fmt.Printf("%v", err)
+	//}
+	//res, err := password.Generate(12, 10, 0, false, false)
+	//if err != nil {
+	//	fmt.Printf("%v", err)
+	//}
+	//f, err = hclparser.AddAttribute(f, fmt.Sprintf("%v.master_user_options.master_user_password", bl), fmt.Sprintf("%v", res), false)
+	//if err != nil {
+	//	fmt.Printf("%v", err)
+	//}
 
 	//Domain Endpoint Options
 	baf = hclparser.NewBlockAppendFilter(bl, "domain_endpoint_options", true)
