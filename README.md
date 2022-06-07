@@ -36,7 +36,8 @@ the correct information.
 
 ## Features
 
-* [INSERT LIST OF FEATURES IMPORTANT TO YOUR USERS HERE]
+* Support for mandatory Unity Tags
+* Support for VPC and Subnet injection
 
 <!-- ☝️ Replace with a bullet-point list of your features ☝️ -->
 
@@ -55,19 +56,24 @@ This guide provides a quick way to get started with our project. Please see our 
 
 ### Requirements
 
-* [INSERT LIST OF REQUIREMENTS HERE]
+* A PC
+* Some terraform scripts
+* [The Unity CS Terraform Transformer Binary](https://github.com/orgs/unity-sds/packages?repo_name=unity-cs-terraform-transformer)
 
 <!-- ☝️ Replace with a numbered list of your requirements, including hardware if applicable ☝️ -->
 
 ### Setup Instructions
 
-1. [INSERT STEP-BY-STEP SETUP INSTRUCTIONS HERE, WITH OPTIONAL SCREENSHOTS]
+1. Grab binary from Packages page
+2. Open a terminal
 
 <!-- ☝️ Replace with a numbered list of how to set up your software prior to running ☝️ -->
 
 ### Run Instructions
 
-1. [INSERT STEP-BY-STEP RUN INSTRUCTIONS HERE, WITH OPTIONAL SCREENSHOTS]
+1. ```shell
+./terraform-transformer parser -t tom -p test --creator tom@spicule.co.uk --venue dev --servicearea cs --capability hysds --capversion 0.0.1 --release G1.0.0 --component python --securityplan 644 --exposed true --experimental false --userfacing true --critinfra 2 --project testproj
+```
 
 <!-- ☝️ Replace with a numbered list of your run instructions, including expected results ☝️ -->
 
@@ -138,4 +144,3 @@ Key points of contact are: [@github-user-1](link to github profile) [@github-use
 
 
 
-parser -t tom -p test --creator tom@spicule.co.uk --venue dev --servicearea cs --capability hysds --capversion 0.0.1 --release G1.0.0 --component python --securityplan 644 --exposed true --experimental false --userfacing true --critinfra 2 --project testproj
