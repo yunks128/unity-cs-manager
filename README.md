@@ -71,7 +71,8 @@ This guide provides a quick way to get started with our project. Please see our 
 
 ### Run Instructions
 
-1. ```./terraform-transformer parser -t tom -p test --creator tom@spicule.co.uk --venue dev --servicearea cs --capability hysds --capversion 0.0.1 --release G1.0.0 --component python --securityplan 644 --exposed true --experimental false --userfacing true --critinfra 2 --project testproj
+```shell
+2. $> ./terraform-transformer parser -t tom -p test --creator tom@spicule.co.uk --venue dev --servicearea cs --capability hysds --capversion 0.0.1 --release G1.0.0 --component python --securityplan 644 --exposed true --experimental false --userfacing true --critinfra 2 --project testproj
 ```
 
 <!-- ☝️ Replace with a numbered list of your run instructions, including expected results ☝️ -->
