@@ -1,0 +1,11 @@
+on:
+  release:
+    types: [created]
+jobs:
+  release:
+    - uses: wangyoucao577/go-release-action@v1.28
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        goos: linux
+        goarch: amd64
+        project_path: cmd
