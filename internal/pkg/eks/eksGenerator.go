@@ -23,7 +23,7 @@ type EKSConfig struct {
 	SecurityGroup           string
 	SharedNodeSecurityGroup string
 	ClusterInstanceType     string
-	Owner                   string
+	ClusterOwner            string
 }
 
 func Generate(name, instancetype, owner string, minsize, maxsize, capacity int) error {
@@ -44,7 +44,7 @@ func Generate(name, instancetype, owner string, minsize, maxsize, capacity int) 
 		SubnetConfigB:           os.Getenv("EKSSubnetConfigB"),
 		SecurityGroup:           os.Getenv("EKSSecurityGroup"),
 		SharedNodeSecurityGroup: os.Getenv("EKSSharedNodeSecurityGroup"),
-		Owner:                   owner,
+		ClusterOwner:            owner,
 	}
 	tmpl, err := template.New("test").Parse(templates.Eksctl)
 	if err != nil {

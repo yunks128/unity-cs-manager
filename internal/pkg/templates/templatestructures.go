@@ -12,7 +12,7 @@ metadata:
   region: {{ .ClusterRegion }}
   version: "{{ .ClusterVersion }}"
   tags:
-    service: {{ .ClusterOwner }}
+    service: "{{ .ClusterOwner }}"
 
 managedNodeGroups:
   - name: {{ .ClusterName }}NodeGroup
