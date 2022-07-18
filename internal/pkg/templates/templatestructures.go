@@ -12,9 +12,7 @@ metadata:
   region: {{ .ClusterRegion }}
   version: "{{ .ClusterVersion }}"
   tags:
-    {{ .ClusterOwner }}
-
-
+    service: {{ .ClusterOwner }}
 
 managedNodeGroups:
   - name: {{ .ClusterName }}NodeGroup
@@ -34,7 +32,6 @@ addons:
     version: {{ .KubeProxyVersion }}
   - name: coredns
     version: {{ .CoreDNSVersion }}
-
 
 vpc:
   subnets:
