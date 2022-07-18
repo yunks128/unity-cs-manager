@@ -11,6 +11,10 @@ metadata:
   name: {{ .ClusterName }}
   region: {{ .ClusterRegion }}
   version: "{{ .ClusterVersion }}"
+  tags:
+    {{ .ClusterOwner }}
+
+
 
 managedNodeGroups:
   - name: {{ .ClusterName }}NodeGroup

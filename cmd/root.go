@@ -40,6 +40,7 @@ var (
 	eksMinNodes     int
 	eksDesiredNodes int
 	eksMaxNodes     int
+	owner           string
 
 	rootCmd      = &cobra.Command{Use: "Unity", Short: "Unity Command Line Tool", Long: ""}
 	terraformcmd = &cobra.Command{
@@ -74,7 +75,7 @@ to quickly create a Cobra application.`,
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			eks.Generate(eksName, eksInstanceType, eksMinNodes, eksMaxNodes, eksDesiredNodes)
+			eks.Generate(eksName, eksInstanceType, owner, eksMinNodes, eksMaxNodes, eksDesiredNodes)
 		},
 	}
 )
@@ -124,6 +125,7 @@ func init() {
 
 	eksCmd.PersistentFlags().StringVar(&eksName, "clustername", "", "The EKS Cluster Name")
 	eksCmd.PersistentFlags().StringVar(&eksInstanceType, "instancetype", "m5.xlarge", "The EKS Cluster Instance Type")
+	eksCmd.PersistentFlags().StringVar(&owner, "owner", "u-cs", "The EKS Cluster Instance Type")
 	eksCmd.PersistentFlags().IntVar(&eksMinNodes, "minnodes", 1, "The EKS Cluster Min Nodes")
 	eksCmd.PersistentFlags().IntVar(&eksMaxNodes, "maxnodes", 3, "The EKS Cluster Max Nodes")
 	eksCmd.PersistentFlags().IntVar(&eksDesiredNodes, "desirednodes", 1, "The EKS Cluster Desired Nodes")
