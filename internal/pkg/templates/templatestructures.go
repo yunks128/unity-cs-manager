@@ -21,7 +21,7 @@ managedNodeGroups:
     minSize: {{ .ClusterMinSize }}
     maxSize: {{ .ClusterMaxSize }}
     desiredCapacity: {{ .ClusterDesiredCapacity }}
-	instanceType: {{ .ClusterInstanceType }}
+    instanceType: {{ .ClusterInstanceType }}
     ami: {{ .ClusterAMI }}
     iam:
       instanceRoleARN: {{ .InstanceRoleArn }}
