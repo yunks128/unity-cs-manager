@@ -39,9 +39,6 @@ var (
 	sourcecontrol     string
 	eksName           string
 	eksInstanceType   string
-	eksMinNodes       int
-	eksDesiredNodes   int
-	eksMaxNodes       int
 	owner             string
 	managedNodeGroups []string
 
