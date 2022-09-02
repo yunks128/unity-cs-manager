@@ -15,11 +15,12 @@ metadata:
     service: "{{ .ClusterOwner }}"
 
 managedNodeGroups:
-  - name: {{ .ClusterName }}NodeGroup
-    minSize: {{ .ClusterMinSize }}
-    maxSize: {{ .ClusterMaxSize }}
-    desiredCapacity: {{ .ClusterDesiredCapacity }}
-    instanceType: {{ .ClusterInstanceType }}
+{{ range $value := .NodeGroups }}
+  - name: {{ .value.NodeGroupName }}NodeGroup
+    minSize: {{ .value.ClusterMinSize }}
+    maxSize: {{ .value.ClusterMaxSize }}
+    desiredCapacity: {{ .value.ClusterDesiredCapacity }}
+    instanceType: {{ .value.ClusterInstanceType }}
     ami: {{ .ClusterAMI }}
     iam:
       instanceRoleARN: {{ .InstanceRoleArn }}
@@ -27,6 +28,7 @@ managedNodeGroups:
     overrideBootstrapCommand: |
       #!/bin/bash
       /etc/eks/bootstrap.sh {{ .ClusterName }}
+{{ end }}
 addons:
   - name: kube-proxy
     version: {{ .KubeProxyVersion }}

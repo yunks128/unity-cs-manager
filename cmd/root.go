@@ -8,6 +8,8 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"strconv"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -15,32 +17,33 @@ import (
 
 var (
 	// Used for flags.
-	cfgFile         string
-	path            string
-	tags            []string
-	subnets         []string
-	secgroups       []string
-	creator         string
-	pocs            []string
-	venue           string
-	project         string
-	servicearea     string
-	capability      string
-	component       string
-	capversion      string
-	release         string
-	securityplan    string
-	exposed         string
-	experimental    string
-	userfacing      string
-	critinfra       string
-	sourcecontrol   string
-	eksName         string
-	eksInstanceType string
-	eksMinNodes     int
-	eksDesiredNodes int
-	eksMaxNodes     int
-	owner           string
+	cfgFile           string
+	path              string
+	tags              []string
+	subnets           []string
+	secgroups         []string
+	creator           string
+	pocs              []string
+	venue             string
+	project           string
+	servicearea       string
+	capability        string
+	component         string
+	capversion        string
+	release           string
+	securityplan      string
+	exposed           string
+	experimental      string
+	userfacing        string
+	critinfra         string
+	sourcecontrol     string
+	eksName           string
+	eksInstanceType   string
+	eksMinNodes       int
+	eksDesiredNodes   int
+	eksMaxNodes       int
+	owner             string
+	managedNodeGroups []string
 
 	rootCmd      = &cobra.Command{Use: "Unity", Short: "Unity Command Line Tool", Long: ""}
 	terraformcmd = &cobra.Command{
@@ -75,10 +78,39 @@ to quickly create a Cobra application.`,
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			eks.Generate(eksName, eksInstanceType, owner, eksMinNodes, eksMaxNodes, eksDesiredNodes)
+			ngs, _ := arrayToNodeGroup(managedNodeGroups)
+			eks.Generate(eksName, eksInstanceType, owner, ngs)
 		},
 	}
 )
+
+func arrayToNodeGroup(groups []string) ([]eks.NodeGroup, error) {
+	ng := []eks.NodeGroup{}
+	for _, g := range groups {
+		s := strings.Split(g, ",")
+		s1, err := strconv.Atoi(s[1])
+		if err != nil {
+			return nil, err
+		}
+		s2, err := strconv.Atoi(s[2])
+		if err != nil {
+			return nil, err
+		}
+		s3, err := strconv.Atoi(s[3])
+		if err != nil {
+			return nil, err
+		}
+		n := eks.NodeGroup{
+			s[0],
+			s1,
+			s2,
+			s3,
+			s[4],
+		}
+		ng = append(ng, n)
+	}
+	return ng, nil
+}
 
 func validate(s string, c string, name string) {
 	re, err := regexp.Compile(s)
@@ -126,9 +158,7 @@ func init() {
 	eksCmd.PersistentFlags().StringVar(&eksName, "clustername", "", "The EKS Cluster Name")
 	eksCmd.PersistentFlags().StringVar(&eksInstanceType, "instancetype", "m5.xlarge", "The EKS Cluster Instance Type")
 	eksCmd.PersistentFlags().StringVar(&owner, "owner", "u-cs", "The EKS Cluster Instance Type")
-	eksCmd.PersistentFlags().IntVar(&eksMinNodes, "minnodes", 1, "The EKS Cluster Min Nodes")
-	eksCmd.PersistentFlags().IntVar(&eksMaxNodes, "maxnodes", 3, "The EKS Cluster Max Nodes")
-	eksCmd.PersistentFlags().IntVar(&eksDesiredNodes, "desirednodes", 1, "The EKS Cluster Desired Nodes")
+	eksCmd.PersistentFlags().StringArrayVarP(&managedNodeGroups, "managenodegroups", "", []string{}, "Managed Node Groups, comma separated,name,min,max,desired,instancetype")
 
 }
 

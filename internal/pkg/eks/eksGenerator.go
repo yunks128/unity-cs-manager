@@ -24,18 +24,25 @@ type EKSConfig struct {
 	SharedNodeSecurityGroup string
 	ClusterInstanceType     string
 	ClusterOwner            string
+	ManagedNodeGroups       []NodeGroup
 }
 
-func Generate(name, instancetype, owner string, minsize, maxsize, capacity int) error {
+type NodeGroup struct {
+	NodeGroupName          string
+	ClusterMinSize         int
+	ClusterMaxSize         int
+	ClusterDesiredCapacity int
+	ClusterInstanceType    string
+}
+
+func Generate(name, instancetype, owner string, ngs []NodeGroup) error {
 	sweaters := EKSConfig{
 		ServiceArn:              os.Getenv("EKSServiceArn"),
 		ClusterName:             name,
 		ClusterRegion:           os.Getenv("EKSClusterRegion"),
 		ClusterVersion:          os.Getenv("EKSClusterVersion"),
-		ClusterMinSize:          minsize,
-		ClusterMaxSize:          maxsize,
-		ClusterDesiredCapacity:  capacity,
 		ClusterInstanceType:     instancetype,
+		ManagedNodeGroups:       ngs,
 		ClusterAMI:              os.Getenv("EKSClusterAMI"),
 		InstanceRoleArn:         os.Getenv("EKSInstanceRoleArn"),
 		KubeProxyVersion:        os.Getenv("EKSKubeProxyVersion"),
