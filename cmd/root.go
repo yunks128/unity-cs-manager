@@ -45,10 +45,8 @@ var (
 	rootCmd      = &cobra.Command{Use: "Unity", Short: "Unity Command Line Tool", Long: ""}
 	terraformcmd = &cobra.Command{
 		Use:   "parse",
-		Short: "A generator for Cobra based Applications",
-		Long: `Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+		Short: "Parse Terraform scripts",
+		Long:  `Parse Terraform scripts and add missing blocks or tags`,
 		Run: func(cmd *cobra.Command, args []string) {
 			validate("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)", creator, "creator")
 			validate("(dev|test|prod)", venue, "venue")
@@ -70,10 +68,8 @@ to quickly create a Cobra application.`,
 
 	eksCmd = &cobra.Command{
 		Use:   "eks",
-		Short: "A generator for Cobra based Applications",
-		Long: `Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+		Short: "Generate valid EKS configs for deployment into U-CS",
+		Long:  `Generate valid EKS configs using a set of input parameters to allow us to deploy easily to U-CS`,
 		Run: func(cmd *cobra.Command, args []string) {
 			ngs, _ := arrayToNodeGroup(managedNodeGroups)
 			eks.Generate(eksName, eksInstanceType, owner, ngs)
