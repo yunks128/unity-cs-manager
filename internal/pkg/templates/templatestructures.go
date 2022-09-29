@@ -12,7 +12,8 @@ metadata:
   region: {{ .ClusterRegion }}
   version: "{{ .ClusterVersion }}"
   tags:
-    service: "{{ .ClusterOwner }}"
+    service: "{{ .ServiceName }}"
+    project: "{{ .ProjectName }}"
 
 managedNodeGroups:
 {{ range $value := .NodeGroups }}
@@ -22,6 +23,9 @@ managedNodeGroups:
     desiredCapacity: {{ .value.ClusterDesiredCapacity }}
     instanceType: {{ .value.ClusterInstanceType }}
     ami: {{ .ClusterAMI }}
+    tags:
+	  service: "{{ .ServiceName }}"
+	  project: "{{ .ProjectName }}"
     iam:
       instanceRoleARN: {{ .InstanceRoleArn }}
     privateNetworking: true
@@ -32,6 +36,9 @@ managedNodeGroups:
 addons:
   - name: kube-proxy
     version: {{ .KubeProxyVersion }}
+    tags:
+      service: "{{ .ServiceName }}"
+      project: "{{ .ProjectName }}"
   - name: coredns
     version: {{ .CoreDNSVersion }}
 

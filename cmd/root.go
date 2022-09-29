@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/actions"
 	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/components"
 	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/eks"
 	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/tagging"
@@ -41,6 +42,12 @@ var (
 	eksInstanceType   string
 	owner             string
 	managedNodeGroups []string
+	inputs            []string
+	action            string
+	deploymeta        string
+	teardownname      string
+	projectname       string
+	servicename       string
 
 	rootCmd      = &cobra.Command{Use: "Unity", Short: "Unity Command Line Tool", Long: ""}
 	terraformcmd = &cobra.Command{
@@ -72,7 +79,43 @@ var (
 		Long:  `Generate valid EKS configs using a set of input parameters to allow us to deploy easily to U-CS`,
 		Run: func(cmd *cobra.Command, args []string) {
 			ngs, _ := arrayToNodeGroup(managedNodeGroups)
-			eks.Generate(eksName, eksInstanceType, owner, ngs)
+			eks.Generate(eksName, eksInstanceType, owner, ngs, projectname, servicename)
+		},
+	}
+
+	actionCmd = &cobra.Command{
+		Use:   "action",
+		Short: "Execute U-CS actions",
+		Long:  "Execute U-CS Actions",
+		Run: func(cmd *cobra.Command, args []string) {
+
+		},
+	}
+
+	deployProjectCmd = &cobra.Command{
+		Use:   "deploy",
+		Short: "Execute U-CS actions",
+		Long:  "Execute U-CS Actions",
+		Run: func(cmd *cobra.Command, args []string) {
+			actions.Execute(deploymeta)
+		},
+	}
+
+	teardownProjectCmd = &cobra.Command{
+		Use:   "teardown",
+		Short: "Teardown U-CS actions",
+		Long:  "Teardown U-CS Actions",
+		Run: func(cmd *cobra.Command, args []string) {
+			actions.TearDown(teardownname)
+		},
+	}
+
+	listProjectsCmd = &cobra.Command{
+		Use:   "list",
+		Short: "List U-CS actions",
+		Long:  "List U-CS Actions",
+		Run: func(cmd *cobra.Command, args []string) {
+			actions.List()
 		},
 	}
 )
@@ -127,6 +170,7 @@ func init() {
 
 	rootCmd.AddCommand(terraformcmd)
 	rootCmd.AddCommand(eksCmd)
+	rootCmd.AddCommand(actionCmd)
 	//rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
 	terraformcmd.PersistentFlags().StringVar(&creator, "creator", "", "The resource creator email")
 	terraformcmd.PersistentFlags().StringVar(&venue, "venue", "", "The venue (dev/test/prod)")
@@ -152,6 +196,15 @@ func init() {
 	eksCmd.PersistentFlags().StringVar(&eksInstanceType, "instancetype", "m5.xlarge", "The EKS Cluster Instance Type")
 	eksCmd.PersistentFlags().StringVar(&owner, "owner", "u-cs", "The EKS Cluster Instance Type")
 	eksCmd.PersistentFlags().StringArrayVarP(&managedNodeGroups, "managenodegroups", "", []string{}, "Managed Node Groups, comma separated,name,min,max,desired,instancetype")
+	eksCmd.PersistentFlags().StringVar(&projectname, "projectname", "", "the unity project name deploying the cluster")
+	eksCmd.PersistentFlags().StringVar(&servicename, "servicename", "", "the unity service name deploying the cluster")
+
+	actionCmd.AddCommand(deployProjectCmd)
+	actionCmd.AddCommand(teardownProjectCmd)
+	actionCmd.AddCommand(listProjectsCmd)
+
+	deployProjectCmd.PersistentFlags().StringVar(&deploymeta, "meta", "", "The metadata of the project to deploy")
+	teardownProjectCmd.PersistentFlags().StringVar(&teardownname, "name", "", "The name of the project to teardown")
 
 }
 

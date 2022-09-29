@@ -25,6 +25,8 @@ type EKSConfig struct {
 	ClusterInstanceType     string
 	ClusterOwner            string
 	ManagedNodeGroups       []NodeGroup
+	ServiceName             string
+	ProjectName             string
 }
 
 type NodeGroup struct {
@@ -35,7 +37,7 @@ type NodeGroup struct {
 	ClusterInstanceType    string
 }
 
-func Generate(name, instancetype, owner string, ngs []NodeGroup) error {
+func Generate(name, instancetype, owner string, ngs []NodeGroup, projectname string, servicename string) error {
 	sweaters := EKSConfig{
 		ServiceArn:              os.Getenv("EKSServiceArn"),
 		ClusterName:             name,
@@ -52,6 +54,8 @@ func Generate(name, instancetype, owner string, ngs []NodeGroup) error {
 		SecurityGroup:           os.Getenv("EKSSecurityGroup"),
 		SharedNodeSecurityGroup: os.Getenv("EKSSharedNodeSecurityGroup"),
 		ClusterOwner:            owner,
+		ProjectName:             projectname,
+		ServiceName:             servicename,
 	}
 	tmpl, err := template.New("test").Parse(templates.Eksctl)
 	if err != nil {
