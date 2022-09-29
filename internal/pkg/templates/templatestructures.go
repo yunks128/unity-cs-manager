@@ -44,8 +44,8 @@ managedNodeGroups:
     instanceType: {{ $value.ClusterInstanceType }}
     ami: {{ $.ClusterAMI }}
     tags:
-	  service: "{{ $.ServiceName }}"
-	  project: "{{ $.ProjectName }}"
+      service: "{{ $.ServiceName }}"
+      project: "{{ $.ProjectName }}"
     iam:
       instanceRoleARN: {{ $.InstanceRoleArn }}
     privateNetworking: true
