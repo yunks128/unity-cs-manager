@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/actions"
+	//"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/actions"
 	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/components"
 	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/eks"
 	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/tagging"
@@ -97,7 +97,7 @@ var (
 		Short: "Execute U-CS actions",
 		Long:  "Execute U-CS Actions",
 		Run: func(cmd *cobra.Command, args []string) {
-			actions.Execute(deploymeta)
+			//actions.Execute(deploymeta)
 		},
 	}
 
@@ -106,7 +106,7 @@ var (
 		Short: "Teardown U-CS actions",
 		Long:  "Teardown U-CS Actions",
 		Run: func(cmd *cobra.Command, args []string) {
-			actions.TearDown(teardownname)
+			//actions.TearDown(teardownname)
 		},
 	}
 
@@ -115,7 +115,7 @@ var (
 		Short: "List U-CS actions",
 		Long:  "List U-CS Actions",
 		Run: func(cmd *cobra.Command, args []string) {
-			actions.List()
+			//actions.List()
 		},
 	}
 )
