@@ -18,15 +18,6 @@ metadata:
 
 
 
-addons:
-  - name: kube-proxy
-    version: {{ .KubeProxyVersion }}
-    tags:
-      service: "{{ .ServiceName }}"
-      project: "{{ .ProjectName }}"
-  - name: coredns
-    version: {{ .CoreDNSVersion }}
-
 vpc:
   subnets:
     private:
