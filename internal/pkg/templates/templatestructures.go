@@ -6,6 +6,7 @@ kind: ClusterConfig
 
 iam:
   serviceRoleARN: {{ .ServiceArn }}
+  withOIDC: false
 
 metadata:
   name: {{ .ClusterName }}
