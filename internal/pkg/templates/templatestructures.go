@@ -17,7 +17,16 @@ metadata:
     project: "{{ .ProjectName }}"
 
 
-
+addons:
+  - name: kube-proxy
+    version: {{ .KubeProxyVersion }}
+    tags:
+      service: "{{ .ServiceName }}"
+      project: "{{ .ProjectName }}"
+  - name: coredns
+    version: {{ .CoreDNSVersion }}
+  - name: aws-ebs-csi-driver
+    version: {{ .EBSCSIVersion}}
 vpc:
   subnets:
     private:

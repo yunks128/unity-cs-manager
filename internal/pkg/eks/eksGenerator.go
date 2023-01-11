@@ -17,6 +17,7 @@ type EKSConfig struct {
 	ClusterAMI              string
 	InstanceRoleArn         string
 	KubeProxyVersion        string
+	EBSCSIVersion           string
 	CoreDNSVersion          string
 	SubnetConfigA           string
 	SubnetConfigB           string
@@ -49,6 +50,7 @@ func Generate(name, instancetype, owner string, ngs []NodeGroup, projectname str
 		InstanceRoleArn:         os.Getenv("EKSInstanceRoleArn"),
 		KubeProxyVersion:        os.Getenv("EKSKubeProxyVersion"),
 		CoreDNSVersion:          os.Getenv("EKSCoreDNSVersion"),
+		EBSCSIVersion:           os.Getenv("EKSEBSCSIVersion"),
 		SubnetConfigA:           os.Getenv("EKSSubnetConfigA"),
 		SubnetConfigB:           os.Getenv("EKSSubnetConfigB"),
 		SecurityGroup:           os.Getenv("EKSSecurityGroup"),
