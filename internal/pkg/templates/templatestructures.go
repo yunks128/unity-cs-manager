@@ -15,7 +15,7 @@ metadata:
   tags:
     service: "{{ .ServiceName }}"
     project: "{{ .ProjectName }}"
-
+    owner:   "{{ .ClusterOwner }}"
 
 addons:
   - name: kube-proxy
@@ -23,6 +23,7 @@ addons:
     tags:
       service: "{{ .ServiceName }}"
       project: "{{ .ProjectName }}"
+      owner: "{{ .ClusterOwner }}"
   - name: coredns
     version: {{ .CoreDNSVersion }}
   - name: aws-ebs-csi-driver
@@ -47,6 +48,7 @@ managedNodeGroups:
     tags:
       service: "{{ $.ServiceName }}"
       project: "{{ $.ProjectName }}"
+      owner:  "{{ $.ClusterOwner }}"
     iam:
       instanceRoleARN: {{ $.InstanceRoleArn }}
     privateNetworking: true
