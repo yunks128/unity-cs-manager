@@ -221,6 +221,8 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&critinfra, "critinfra", "", "What is the level of criticality of the resource? This is mesaured on a scale of 5, with 5 being the most critical.")
 	rootCmd.PersistentFlags().StringVar(&sourcecontrol, "sourcecontrol", "", "This should be an URL to the source code/or documentation of the software deployed on the resource.")
 	rootCmd.PersistentFlags().StringSliceVar(&pocs, "pocs", []string{}, "The list of the point of contacts that is responsible for the resource is being deployed on.")
+	rootCmd.PersistentFlags().StringVar(&applicationname, "applicationname", "", "Application name")
+	rootCmd.PersistentFlags().StringVar(&applicationversion, "applicationversion", "", "Application version")
 
 	rootCmd.MarkPersistentFlagRequired("resourcename")
 	rootCmd.MarkPersistentFlagRequired("name")
@@ -241,7 +243,8 @@ func init() {
 	rootCmd.MarkPersistentFlagRequired("creator")
 	rootCmd.MarkPersistentFlagRequired("venue")
 	rootCmd.MarkPersistentFlagRequired("servicearea")
-
+	rootCmd.MarkPersistentFlagRequired("applicationname")
+	rootCmd.MarkPersistentFlagRequired("applicationversion")
 	actionCmd.AddCommand(deployProjectCmd)
 	actionCmd.AddCommand(teardownProjectCmd)
 	actionCmd.AddCommand(listProjectsCmd)
