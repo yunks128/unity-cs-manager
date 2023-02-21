@@ -101,7 +101,7 @@ var (
 				Criticalinfra:      critinfra,
 				Sourcecontrol:      sourcecontrol,
 			}
-
+			fmt.Printf("resourcename: %s", resourcename)
 			eks.Generate(eksName, eksInstanceType, owner, ngs, awstags)
 		},
 	}
@@ -223,6 +223,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&sourcecontrol, "sourcecontrol", "", "This should be an URL to the source code/or documentation of the software deployed on the resource.")
 	rootCmd.PersistentFlags().StringSliceVar(&pocs, "pocs", []string{}, "The list of the point of contacts that is responsible for the resource is being deployed on.")
 
+	rootCmd.MarkPersistentFlagRequired("resourcename")
 	rootCmd.MarkPersistentFlagRequired("name")
 	rootCmd.MarkPersistentFlagRequired("owner")
 	rootCmd.MarkPersistentFlagRequired("projectname")
