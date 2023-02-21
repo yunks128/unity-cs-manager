@@ -28,6 +28,7 @@ type EKSConfig struct {
 	ManagedNodeGroups       []NodeGroup
 	ServiceName             string
 	ProjectName             string
+	Tags                    AWSTags
 }
 
 type NodeGroup struct {
@@ -38,7 +39,26 @@ type NodeGroup struct {
 	ClusterInstanceType    string
 }
 
-func Generate(name, instancetype, owner string, ngs []NodeGroup, projectname string, servicename string) error {
+type AWSTags struct {
+	Resourcename       string
+	Creatoremail       string
+	Pocemail           string
+	Venue              string
+	Projectname        string
+	Servicename        string
+	Applicationname    string
+	Applicationversion string
+	Releaseversion     string
+	Componentname      string
+	Securityplanid     string
+	Exposedweb         string
+	Experimental       string
+	Userfacing         string
+	Criticalinfra      string
+	Sourcecontrol      string
+}
+
+func Generate(name, instancetype, owner string, ngs []NodeGroup, tags AWSTags) error {
 	sweaters := EKSConfig{
 		ServiceArn:              os.Getenv("EKSServiceArn"),
 		ClusterName:             name,
@@ -55,9 +75,7 @@ func Generate(name, instancetype, owner string, ngs []NodeGroup, projectname str
 		SubnetConfigB:           os.Getenv("EKSSubnetConfigB"),
 		SecurityGroup:           os.Getenv("EKSSecurityGroup"),
 		SharedNodeSecurityGroup: os.Getenv("EKSSharedNodeSecurityGroup"),
-		ClusterOwner:            owner,
-		ProjectName:             projectname,
-		ServiceName:             servicename,
+		Tags:                    tags,
 	}
 	tmpl, err := template.New("test").Parse(templates.Eksctl)
 	if err != nil {

@@ -18,39 +18,42 @@ import (
 
 var (
 	// Used for flags.
-	cfgFile           string
-	path              string
-	tags              []string
-	subnets           []string
-	secgroups         []string
-	creator           string
-	pocs              []string
-	venue             string
-	project           string
-	servicearea       string
-	capability        string
-	component         string
-	capversion        string
-	release           string
-	securityplan      string
-	exposed           string
-	experimental      string
-	userfacing        string
-	critinfra         string
-	sourcecontrol     string
-	eksName           string
-	eksInstanceType   string
-	owner             string
-	managedNodeGroups []string
-	inputs            []string
-	action            string
-	deploymeta        string
-	teardownname      string
-	projectname       string
-	servicename       string
-
-	rootCmd      = &cobra.Command{Use: "Unity", Short: "Unity Command Line Tool", Long: ""}
-	terraformcmd = &cobra.Command{
+	cfgFile            string
+	path               string
+	tags               []string
+	subnets            []string
+	secgroups          []string
+	creator            string
+	pocs               []string
+	venue              string
+	project            string
+	servicearea        string
+	capability         string
+	component          string
+	capversion         string
+	release            string
+	securityplan       string
+	exposed            string
+	experimental       string
+	userfacing         string
+	critinfra          string
+	sourcecontrol      string
+	eksName            string
+	eksInstanceType    string
+	owner              string
+	managedNodeGroups  []string
+	inputs             []string
+	action             string
+	deploymeta         string
+	teardownname       string
+	projectname        string
+	servicename        string
+	applicationname    string
+	applicationversion string
+	awstags            eks.AWSTags
+	resourcename       string
+	rootCmd            = &cobra.Command{Use: "Unity", Short: "Unity Command Line Tool", Long: ""}
+	terraformcmd       = &cobra.Command{
 		Use:   "parse",
 		Short: "Parse Terraform scripts",
 		Long:  `Parse Terraform scripts and add missing blocks or tags`,
@@ -79,7 +82,27 @@ var (
 		Long:  `Generate valid EKS configs using a set of input parameters to allow us to deploy easily to U-CS`,
 		Run: func(cmd *cobra.Command, args []string) {
 			ngs, _ := arrayToNodeGroup(managedNodeGroups)
-			eks.Generate(eksName, eksInstanceType, owner, ngs, projectname, servicename)
+			awstags = eks.AWSTags{
+
+				Resourcename:       resourcename,
+				Creatoremail:       creator,
+				Pocemail:           pocs[0],
+				Venue:              venue,
+				Projectname:        projectname,
+				Servicename:        servicename,
+				Applicationname:    applicationname,
+				Applicationversion: applicationversion,
+				Releaseversion:     release,
+				Componentname:      component,
+				Securityplanid:     securityplan,
+				Exposedweb:         exposed,
+				Experimental:       experimental,
+				Userfacing:         userfacing,
+				Criticalinfra:      critinfra,
+				Sourcecontrol:      sourcecontrol,
+			}
+
+			eks.Generate(eksName, eksInstanceType, owner, ngs, awstags)
 		},
 	}
 
@@ -169,35 +192,55 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.AddCommand(terraformcmd)
-	rootCmd.AddCommand(eksCmd)
 	rootCmd.AddCommand(actionCmd)
 	//rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
-	terraformcmd.PersistentFlags().StringVar(&creator, "creator", "", "The resource creator email")
-	terraformcmd.PersistentFlags().StringVar(&venue, "venue", "", "The venue (dev/test/prod)")
-	terraformcmd.PersistentFlags().StringVar(&project, "project", "", "The name of the project")
-	terraformcmd.PersistentFlags().StringVar(&servicearea, "servicearea", "", "The name of the Unity Service Area")
-	terraformcmd.PersistentFlags().StringVar(&capability, "capability", "", "The name of the application")
-	terraformcmd.PersistentFlags().StringVar(&component, "component", "", "The primary type of application/runtime that will be run on this resource.")
-	terraformcmd.PersistentFlags().StringVar(&capversion, "capversion", "", "Version of the application.")
-	terraformcmd.PersistentFlags().StringVar(&release, "release", "", "Release version that the application belongs to.")
-	terraformcmd.PersistentFlags().StringVar(&securityplan, "securityplan", "", "The JPL security plan ID that this resource falls under.")
-	terraformcmd.PersistentFlags().StringVar(&exposed, "exposed", "", "Is this resource exposed to the web?")
-	terraformcmd.PersistentFlags().StringVar(&experimental, "experimental", "", "Is this an experimental resource? If so, it will be removed after a period of time.")
-	terraformcmd.PersistentFlags().StringVar(&userfacing, "userfacing", "", "Is this resource user facing? Does the user interact directly with this resource?")
-	terraformcmd.PersistentFlags().StringVar(&critinfra, "critinfra", "", "What is the level of criticality of the resource? This is mesaured on a scale of 5, with 5 being the most critical.")
-	terraformcmd.PersistentFlags().StringVar(&sourcecontrol, "sourcecontrol", "", "This should be an URL to the source code/or documentation of the software deployed on the resource.")
-	terraformcmd.PersistentFlags().StringSliceVar(&pocs, "pocs", []string{}, "The list of the point of contacts that is responsible for the resource is being deployed on.")
+	rootCmd.PersistentFlags().StringVar(&resourcename, "resourcename", "", "The resource name")
+	rootCmd.PersistentFlags().StringVar(&creator, "creator", "", "The resource creator email")
+	rootCmd.PersistentFlags().StringVar(&venue, "venue", "", "The venue (dev/test/prod)")
+	rootCmd.PersistentFlags().StringVar(&servicearea, "servicearea", "", "The name of the Unity Service Area")
+
 	terraformcmd.PersistentFlags().StringSliceVarP(&tags, "tag", "t", []string{}, "A list of additional tags")
 	terraformcmd.PersistentFlags().StringSliceVarP(&subnets, "subnet", "s", []string{}, "A list of subnet ids")
 	terraformcmd.PersistentFlags().StringSliceVarP(&secgroups, "securitygroupids", "g", []string{}, "A list of security group ids")
 	terraformcmd.PersistentFlags().StringVarP(&path, "path", "p", "", "the path to the terraform files")
 
-	eksCmd.PersistentFlags().StringVar(&eksName, "clustername", "", "The EKS Cluster Name")
+	rootCmd.PersistentFlags().StringVar(&eksName, "name", "", "The EKS Cluster Name")
 	eksCmd.PersistentFlags().StringVar(&eksInstanceType, "instancetype", "m5.xlarge", "The EKS Cluster Instance Type")
-	eksCmd.PersistentFlags().StringVar(&owner, "owner", "u-cs", "The EKS Cluster Instance Type")
-	eksCmd.PersistentFlags().StringArrayVarP(&managedNodeGroups, "managenodegroups", "", []string{}, "Managed Node Groups, comma separated,name,min,max,desired,instancetype")
-	eksCmd.PersistentFlags().StringVar(&projectname, "projectname", "", "the unity project name deploying the cluster")
-	eksCmd.PersistentFlags().StringVar(&servicename, "servicename", "", "the unity service name deploying the cluster")
+	rootCmd.PersistentFlags().StringVar(&owner, "owner", "u-cs", "The EKS Cluster Instance Type")
+	rootCmd.PersistentFlags().StringArrayVarP(&managedNodeGroups, "managenodegroups", "", []string{}, "Managed Node Groups, comma separated,name,min,max,desired,instancetype")
+	rootCmd.PersistentFlags().StringVar(&projectname, "projectname", "", "the unity project name deploying the cluster")
+	rootCmd.PersistentFlags().StringVar(&servicename, "servicename", "", "the unity service name deploying the cluster")
+	rootCmd.PersistentFlags().StringVar(&capability, "capability", "", "The name of the application")
+	rootCmd.PersistentFlags().StringVar(&component, "component", "", "The primary type of application/runtime that will be run on this resource.")
+	rootCmd.PersistentFlags().StringVar(&capversion, "capversion", "", "Version of the application.")
+	rootCmd.PersistentFlags().StringVar(&release, "release", "", "Release version that the application belongs to.")
+	rootCmd.PersistentFlags().StringVar(&securityplan, "securityplan", "", "The JPL security plan ID that this resource falls under.")
+	rootCmd.PersistentFlags().StringVar(&exposed, "exposed", "", "Is this resource exposed to the web?")
+	rootCmd.PersistentFlags().StringVar(&experimental, "experimental", "", "Is this an experimental resource? If so, it will be removed after a period of time.")
+
+	rootCmd.PersistentFlags().StringVar(&userfacing, "userfacing", "", "Is this resource user facing? Does the user interact directly with this resource?")
+	rootCmd.PersistentFlags().StringVar(&critinfra, "critinfra", "", "What is the level of criticality of the resource? This is mesaured on a scale of 5, with 5 being the most critical.")
+	rootCmd.PersistentFlags().StringVar(&sourcecontrol, "sourcecontrol", "", "This should be an URL to the source code/or documentation of the software deployed on the resource.")
+	rootCmd.PersistentFlags().StringSliceVar(&pocs, "pocs", []string{}, "The list of the point of contacts that is responsible for the resource is being deployed on.")
+
+	rootCmd.MarkPersistentFlagRequired("name")
+	rootCmd.MarkPersistentFlagRequired("owner")
+	rootCmd.MarkPersistentFlagRequired("projectname")
+	rootCmd.MarkPersistentFlagRequired("servicename")
+	rootCmd.MarkPersistentFlagRequired("capability")
+	rootCmd.MarkPersistentFlagRequired("component")
+	rootCmd.MarkPersistentFlagRequired("capversion")
+	rootCmd.MarkPersistentFlagRequired("release")
+	rootCmd.MarkPersistentFlagRequired("securityplan")
+	rootCmd.MarkPersistentFlagRequired("exposed")
+	rootCmd.MarkPersistentFlagRequired("experimental")
+	rootCmd.MarkPersistentFlagRequired("userfacing")
+	rootCmd.MarkPersistentFlagRequired("critinfra")
+	rootCmd.MarkPersistentFlagRequired("sourcecontrol")
+	rootCmd.MarkPersistentFlagRequired("pocs")
+	rootCmd.MarkPersistentFlagRequired("creator")
+	rootCmd.MarkPersistentFlagRequired("venue")
+	rootCmd.MarkPersistentFlagRequired("servicearea")
 
 	actionCmd.AddCommand(deployProjectCmd)
 	actionCmd.AddCommand(teardownProjectCmd)
@@ -206,6 +249,7 @@ func init() {
 	deployProjectCmd.PersistentFlags().StringVar(&deploymeta, "meta", "", "The metadata of the project to deploy")
 	teardownProjectCmd.PersistentFlags().StringVar(&teardownname, "name", "", "The name of the project to teardown")
 
+	rootCmd.AddCommand(eksCmd)
 }
 
 func initConfig() {
