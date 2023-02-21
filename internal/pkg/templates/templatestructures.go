@@ -13,9 +13,22 @@ metadata:
   region: {{ .ClusterRegion }}
   version: "{{ .ClusterVersion }}"
   tags:
-    service: "{{ .ServiceName }}"
-    project: "{{ .ProjectName }}"
-    owner:   "{{ .ClusterOwner }}"
+    unity-name: "{{ .Tags.ResourceName }}"
+    unity-creator: "{{ .Tags.CreatorEmail }}"
+    unity-poc: "{{ .Tags.POCEmail }}"
+    unity-venue: "{{ .Tags.Venue }}"
+    unity-project: "{{ .Tags.ProjectName }}"
+    unity-service-area: "{{ .Tags.ServiceName }}"
+    unity-capability: "{{ .Tags.ApplicationName }}"
+    unity-capversion: "{{ .Tags.ApplicationVersion }}"
+    unity-release: "{{ .Tags.ReleaseVersion }}"
+    unity-component: "{{ .Tags.ComponentName }}"
+    unity-security-plan-id: "{{ .Tags.SecurityPlanID }}"
+    unity-exposed-web: "{{ .Tags.ExposedWeb }}"
+    unity-experimental: "{{ .Tags.Experimental }}"
+    unity-user-facing: "{{ .Tags.UserFacing }}"
+    unity-crit-infra: "{{ .Tags.CriticalInfra }}"
+    unity-source-control: "{{ .Tags.SourceControl }}"
 
 addons:
   - name: kube-proxy
@@ -45,6 +58,7 @@ managedNodeGroups:
     desiredCapacity: {{ $value.ClusterDesiredCapacity }}
     instanceType: {{ $value.ClusterInstanceType }}
     ami: {{ $.ClusterAMI }}
+    amiFamily: AmazonLinux2
     tags:
       service: "{{ $.ServiceName }}"
       project: "{{ $.ProjectName }}"
