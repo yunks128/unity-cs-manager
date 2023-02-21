@@ -101,7 +101,6 @@ var (
 				Criticalinfra:      critinfra,
 				Sourcecontrol:      sourcecontrol,
 			}
-			fmt.Printf("resourcename: %s", resourcename)
 			eks.Generate(eksName, eksInstanceType, owner, ngs, awstags)
 		},
 	}
