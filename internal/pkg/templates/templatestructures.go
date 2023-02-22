@@ -73,22 +73,22 @@ managedNodeGroups:
     ami: {{ $.ClusterAMI }}
     amiFamily: AmazonLinux2
     tags:
-      unity-name: "{{ .Tags.Resourcename }}"
-      unity-creator: "{{ .Tags.Creatoremail }}"
-      unity-poc: "{{ .Tags.Pocemail }}"
-      unity-venue: "{{ .Tags.Venue }}"
-      unity-project: "{{ .Tags.Projectname }}"
-      unity-service-area: "{{ .Tags.Servicename }}"
-      unity-capability: "{{ .Tags.Applicationname }}"
-      unity-capversion: "{{ .Tags.Applicationversion }}"
-      unity-release: "{{ .Tags.Releaseversion }}"
-      unity-component: "{{ .Tags.Componentname }}"
-      unity-security-plan-id: "{{ .Tags.Securityplanid }}"
-      unity-exposed-web: "{{ .Tags.Exposedweb }}"
-      unity-experimental: "{{ .Tags.Experimental }}"
-      unity-user-facing: "{{ .Tags.Userfacing }}"
-      unity-crit-infra: "{{ .Tags.Criticalinfra }}"
-      unity-source-control: "{{ .Tags.Sourcecontrol }}"
+      unity-name: "{{ $.Tags.Resourcename }}"
+      unity-creator: "{{ $.Tags.Creatoremail }}"
+      unity-poc: "{{ $.Tags.Pocemail }}"
+      unity-venue: "{{ $.Tags.Venue }}"
+      unity-project: "{{ $.Tags.Projectname }}"
+      unity-service-area: "{{ $.Tags.Servicename }}"
+      unity-capability: "{{ $.Tags.Applicationname }}"
+      unity-capversion: "{{ $.Tags.Applicationversion }}"
+      unity-release: "{{ $.Tags.Releaseversion }}"
+      unity-component: "{{ $.Tags.Componentname }}"
+      unity-security-plan-id: "{{ $.Tags.Securityplanid }}"
+      unity-exposed-web: "{{ $.Tags.Exposedweb }}"
+      unity-experimental: "{{ $.Tags.Experimental }}"
+      unity-user-facing: "{{ $.Tags.Userfacing }}"
+      unity-crit-infra: "{{ $.Tags.Criticalinfra }}"
+      unity-source-control: "{{ $.Tags.Sourcecontrol }}"
     iam:
       instanceRoleARN: {{ $.InstanceRoleArn }}
     privateNetworking: true
