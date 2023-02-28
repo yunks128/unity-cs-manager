@@ -1,6 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 pkgs.mkShell {
-  buildInputs = [pkgs.go_1_18
+  buildInputs = [
+    pkgs.go_1_18
     pkgs.gotools
     pkgs.gopls
     pkgs.go-outline
@@ -8,5 +9,9 @@ pkgs.mkShell {
     pkgs.gopkgs
     pkgs.gocode-gomod
     pkgs.godef
-    pkgs.golint];
+    pkgs.golint
+    pkgs.pre-commit
+    pkgs.nodejs
+    pkgs.nodePackages.npm
+    pkgs.ruby];
 }

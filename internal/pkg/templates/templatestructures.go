@@ -58,6 +58,7 @@ vpc:
   subnets:
     private:
       {{ .SubnetConfigA }}
+    public:
       {{ .SubnetConfigB }}
   securityGroup: {{ .SecurityGroup }}
   sharedNodeSecurityGroup: {{ .SharedNodeSecurityGroup }}
