@@ -2,11 +2,9 @@
 name: Bug Report
 about: Report a bug to help us improve
 title: '[Bug]: '
-labels: 'bug'
+labels: bug
 assignees: ''
-
 ---
-
 **Checked for duplicates**
 
 > Have you checked for duplicate issue tickets?
@@ -41,3 +39,4 @@ Ex. I expected [...]
 - Ex. Version of this software [e.g. vX.Y.Z]
 - Ex. Operating System: [e.g. MacOSX with Docker Desktop vX.Y]
 - ...
+

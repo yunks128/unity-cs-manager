@@ -3,11 +3,12 @@ package hclparser
 import (
 	"errors"
 	"fmt"
-	"github.com/hashicorp/hcl/v2"
-	"github.com/hashicorp/hcl/v2/hclwrite"
 	"log"
 	"runtime/debug"
 	"strings"
+
+	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl/v2/hclwrite"
 )
 
 // AttributeAppendFilter is a filter implementation for appending attribute.

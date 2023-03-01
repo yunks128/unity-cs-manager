@@ -1,8 +1,9 @@
 package eks
 
 import (
-	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/templates"
 	"os"
+
+	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/templates"
 )
 import "html/template"
 
@@ -82,6 +83,6 @@ func Generate(name, instancetype, owner string, ngs []NodeGroup, tags AWSTags) e
 		return err
 	}
 
-	err = tmpl.Execute(os.Stdout, sweaters)
+	_ = tmpl.Execute(os.Stdout, sweaters)
 	return nil
 }

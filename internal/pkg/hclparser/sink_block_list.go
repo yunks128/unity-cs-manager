@@ -7,8 +7,7 @@ import (
 )
 
 // BlockListSink is a sink implementation for getting a list of block addresses.
-type BlockListSink struct {
-}
+type BlockListSink struct{}
 
 var _ Sink = (*BlockListSink)(nil)
 
@@ -24,11 +23,11 @@ func (s *BlockListSink) Sink(inFile *hclwrite.File) ([]string, error) {
 		addrs = append(addrs, toAddress(b))
 	}
 
-	out := strings.Join(addrs, "\n")
-	if len(out) != 0 {
-		// append a new line if output is not empty.
-		out += "\n"
-	}
+	//out := strings.Join(addrs, "\n")
+	//if len(out) != 0 {
+	// append a new line if output is not empty.
+	//out += "\n"
+	//}
 	return addrs, nil
 }
 

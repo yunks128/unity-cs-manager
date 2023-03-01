@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	//"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/actions"
-	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/components"
-	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/eks"
-	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/tagging"
 	"log"
 	"os"
 	"regexp"
 	"strconv"
 	"strings"
+
+	//"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/actions"
+	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/components"
+	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/eks"
+	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/tagging"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -18,32 +19,32 @@ import (
 
 var (
 	// Used for flags.
-	cfgFile            string
-	path               string
-	tags               []string
-	subnets            []string
-	secgroups          []string
-	creator            string
-	pocs               []string
-	venue              string
-	project            string
-	servicearea        string
-	capability         string
-	component          string
-	capversion         string
-	release            string
-	securityplan       string
-	exposed            string
-	experimental       string
-	userfacing         string
-	critinfra          string
-	sourcecontrol      string
-	eksName            string
-	eksInstanceType    string
-	owner              string
-	managedNodeGroups  []string
-	inputs             []string
-	action             string
+	cfgFile           string
+	path              string
+	tags              []string
+	subnets           []string
+	secgroups         []string
+	creator           string
+	pocs              []string
+	venue             string
+	project           string
+	servicearea       string
+	capability        string
+	component         string
+	capversion        string
+	release           string
+	securityplan      string
+	exposed           string
+	experimental      string
+	userfacing        string
+	critinfra         string
+	sourcecontrol     string
+	eksName           string
+	eksInstanceType   string
+	owner             string
+	managedNodeGroups []string
+	// inputs             []string
+	// action             string
 	deploymeta         string
 	teardownname       string
 	projectname        string
@@ -83,7 +84,6 @@ var (
 		Run: func(cmd *cobra.Command, args []string) {
 			ngs, _ := arrayToNodeGroup(managedNodeGroups)
 			awstags = eks.AWSTags{
-
 				Resourcename:       resourcename,
 				Creatoremail:       creator,
 				Pocemail:           pocs[0],
@@ -101,7 +101,7 @@ var (
 				Criticalinfra:      critinfra,
 				Sourcecontrol:      sourcecontrol,
 			}
-			eks.Generate(eksName, eksInstanceType, owner, ngs, awstags)
+			_ = eks.Generate(eksName, eksInstanceType, owner, ngs, awstags)
 		},
 	}
 
@@ -110,7 +110,6 @@ var (
 		Short: "Execute U-CS actions",
 		Long:  "Execute U-CS Actions",
 		Run: func(cmd *cobra.Command, args []string) {
-
 		},
 	}
 
@@ -119,7 +118,7 @@ var (
 		Short: "Execute U-CS actions",
 		Long:  "Execute U-CS Actions",
 		Run: func(cmd *cobra.Command, args []string) {
-			//actions.Execute(deploymeta)
+			// actions.Execute(deploymeta)
 		},
 	}
 
@@ -128,7 +127,7 @@ var (
 		Short: "Teardown U-CS actions",
 		Long:  "Teardown U-CS Actions",
 		Run: func(cmd *cobra.Command, args []string) {
-			//actions.TearDown(teardownname)
+			// actions.TearDown(teardownname)
 		},
 	}
 
@@ -137,7 +136,7 @@ var (
 		Short: "List U-CS actions",
 		Long:  "List U-CS Actions",
 		Run: func(cmd *cobra.Command, args []string) {
-			//actions.List()
+			// actions.List()
 		},
 	}
 )
@@ -159,11 +158,11 @@ func arrayToNodeGroup(groups []string) ([]eks.NodeGroup, error) {
 			return nil, err
 		}
 		n := eks.NodeGroup{
-			s[0],
-			s1,
-			s2,
-			s3,
-			s[4],
+			NodeGroupName:          s[0],
+			ClusterMinSize:         s1,
+			ClusterMaxSize:         s2,
+			ClusterDesiredCapacity: s3,
+			ClusterInstanceType:    s[4],
 		}
 		ng = append(ng, n)
 	}
@@ -177,7 +176,7 @@ func validate(s string, c string, name string) {
 	}
 
 	if !re.MatchString(c) {
-		//return fmt.Errorf("invalid value: %q", flag1)
+		// return fmt.Errorf("invalid value: %q", flag1)
 		log.Fatalf("Invalid flag %v with value %v, expected regex: %v", name, c, s)
 	}
 }
@@ -192,7 +191,7 @@ func init() {
 
 	rootCmd.AddCommand(terraformcmd)
 	rootCmd.AddCommand(actionCmd)
-	//rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
+	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
 	rootCmd.PersistentFlags().StringVar(&resourcename, "resourcename", "", "The resource name")
 	rootCmd.PersistentFlags().StringVar(&creator, "creator", "", "The resource creator email")
 	rootCmd.PersistentFlags().StringVar(&venue, "venue", "", "The venue (dev/test/prod)")
@@ -224,27 +223,27 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&applicationname, "applicationname", "", "Application name")
 	rootCmd.PersistentFlags().StringVar(&applicationversion, "applicationversion", "", "Application version")
 
-	rootCmd.MarkPersistentFlagRequired("resourcename")
-	rootCmd.MarkPersistentFlagRequired("name")
-	rootCmd.MarkPersistentFlagRequired("owner")
-	rootCmd.MarkPersistentFlagRequired("projectname")
-	rootCmd.MarkPersistentFlagRequired("servicename")
-	rootCmd.MarkPersistentFlagRequired("capability")
-	rootCmd.MarkPersistentFlagRequired("component")
-	rootCmd.MarkPersistentFlagRequired("capversion")
-	rootCmd.MarkPersistentFlagRequired("release")
-	rootCmd.MarkPersistentFlagRequired("securityplan")
-	rootCmd.MarkPersistentFlagRequired("exposed")
-	rootCmd.MarkPersistentFlagRequired("experimental")
-	rootCmd.MarkPersistentFlagRequired("userfacing")
-	rootCmd.MarkPersistentFlagRequired("critinfra")
-	rootCmd.MarkPersistentFlagRequired("sourcecontrol")
-	rootCmd.MarkPersistentFlagRequired("pocs")
-	rootCmd.MarkPersistentFlagRequired("creator")
-	rootCmd.MarkPersistentFlagRequired("venue")
-	rootCmd.MarkPersistentFlagRequired("servicearea")
-	rootCmd.MarkPersistentFlagRequired("applicationname")
-	rootCmd.MarkPersistentFlagRequired("applicationversion")
+	_ = rootCmd.MarkPersistentFlagRequired("resourcename")
+	_ = rootCmd.MarkPersistentFlagRequired("name")
+	_ = rootCmd.MarkPersistentFlagRequired("owner")
+	_ = rootCmd.MarkPersistentFlagRequired("projectname")
+	_ = rootCmd.MarkPersistentFlagRequired("servicename")
+	_ = rootCmd.MarkPersistentFlagRequired("capability")
+	_ = rootCmd.MarkPersistentFlagRequired("component")
+	_ = rootCmd.MarkPersistentFlagRequired("capversion")
+	_ = rootCmd.MarkPersistentFlagRequired("release")
+	_ = rootCmd.MarkPersistentFlagRequired("securityplan")
+	_ = rootCmd.MarkPersistentFlagRequired("exposed")
+	_ = rootCmd.MarkPersistentFlagRequired("experimental")
+	_ = rootCmd.MarkPersistentFlagRequired("userfacing")
+	_ = rootCmd.MarkPersistentFlagRequired("critinfra")
+	_ = rootCmd.MarkPersistentFlagRequired("sourcecontrol")
+	_ = rootCmd.MarkPersistentFlagRequired("pocs")
+	_ = rootCmd.MarkPersistentFlagRequired("creator")
+	_ = rootCmd.MarkPersistentFlagRequired("venue")
+	_ = rootCmd.MarkPersistentFlagRequired("servicearea")
+	_ = rootCmd.MarkPersistentFlagRequired("applicationname")
+	_ = rootCmd.MarkPersistentFlagRequired("applicationversion")
 	actionCmd.AddCommand(deployProjectCmd)
 	actionCmd.AddCommand(teardownProjectCmd)
 	actionCmd.AddCommand(listProjectsCmd)
