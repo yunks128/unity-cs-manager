@@ -57,9 +57,11 @@ addons:
 vpc:
   subnets:
     private:
-      {{ .SubnetConfigA }}
+      {{ .PrivateSubnetA }}
+      {{ .PrivateSubnetB }}
     public:
-      {{ .SubnetConfigB }}
+      {{ .PublicSubnetA }}
+      {{ .PublicSubnetB }}
   securityGroup: {{ .SecurityGroup }}
   sharedNodeSecurityGroup: {{ .SharedNodeSecurityGroup }}
   manageSharedNodeSecurityGroupRules: false
