@@ -56,12 +56,16 @@ addons:
     version: {{ .EBSCSIVersion}}
 vpc:
   subnets:
+{{if .PrivateSubnetA}}
     private:
       {{ .PrivateSubnetA }}
       {{ .PrivateSubnetB }}
+{{end}}
+{{if .PublicSubnetA}}
     public:
       {{ .PublicSubnetA }}
       {{ .PublicSubnetB }}
+{{end}}
   securityGroup: {{ .SecurityGroup }}
   sharedNodeSecurityGroup: {{ .SharedNodeSecurityGroup }}
   manageSharedNodeSecurityGroupRules: false
