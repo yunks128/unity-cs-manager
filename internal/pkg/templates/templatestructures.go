@@ -98,7 +98,7 @@ managedNodeGroups:
       unity-source-control: "{{ $.Tags.Sourcecontrol }}"
     iam:
       instanceRoleARN: {{ $.InstanceRoleArn }}
-    privateNetworking: true
+    privateNetworking: false
     overrideBootstrapCommand: |
       #!/bin/bash
       /etc/eks/bootstrap.sh {{ $.ClusterName }}
