@@ -141,6 +141,24 @@ var (
 	}
 )
 
+// Function Name: arrayToNodeGroup
+// Function Signature: func arrayToNodeGroup(groups []string) ([]eks.NodeGroup, error)
+// Function Description:
+// arrayToNodeGroup is a function that converts an array of strings representing EKS NodeGroups to an array of NodeGroup structs. It takes an input parameter 'groups' which is an array of strings where each string represents a NodeGroup in the format "NodeGroupName,ClusterMinSize,ClusterMaxSize,ClusterDesiredCapacity,ClusterInstanceType". The function parses each string in the array to extract the individual fields and creates a NodeGroup struct with those values. It then appends the newly created NodeGroup to the resulting slice of NodeGroups. The final output of the function is the resulting slice of NodeGroups.
+//
+// Function Parameters:
+// 1. groups []string : An array of strings representing EKS NodeGroups. Each string is in the format "NodeGroupName,ClusterMinSize,ClusterMaxSize,ClusterDesiredCapacity,ClusterInstanceType".
+//
+// Return Values:
+// 1. []eks.NodeGroup : A slice of NodeGroup structs that represents the NodeGroups in the input array of strings.
+// 2. error : An error that is returned if any of the input strings are not in the correct format or if there is an error while parsing the values.
+
+// Function Logic:
+// The function starts by initializing an empty slice of NodeGroups called 'ng'.
+// It then iterates through each string in the input array 'groups' using a for loop and extracts the individual fields from the string using the 'strings.Split()' function.
+// The resulting slice of strings is then parsed using the 'strconv.Atoi()' function to convert the string values to integers where necessary.
+// The function then creates a new NodeGroup struct using the parsed values and appends it to the 'ng' slice.
+// Finally, the function returns the resulting slice of NodeGroups 'ng' and any error that occurred during the processing of the input array.
 func arrayToNodeGroup(groups []string) ([]eks.NodeGroup, error) {
 	ng := []eks.NodeGroup{}
 	for _, g := range groups {
@@ -169,6 +187,34 @@ func arrayToNodeGroup(groups []string) ([]eks.NodeGroup, error) {
 	return ng, nil
 }
 
+// Function Signature: func validate(s string, c string, name string)
+// Function Description:
+// validate is a function that takes in three parameters - a regular expression string 's', a string 'c', and a name string 'name'. The function compiles the regular expression string 's' using the 'regexp.Compile()' function and checks if the string 'c' matches the compiled regular expression. If the string 'c' does not match the regular expression, the function logs a fatal error with details about the invalid flag and its value.
+//
+// Function Parameters:
+// 1. s string: A regular expression string that is used to validate the string 'c'.
+// 2. c string: A string value that needs to be validated against the regular expression 's'.
+// 3. name string: A string that represents the name of the flag being validated.
+//
+// Return Values: This function does not return any values, it logs a fatal error if the string 'c' does not match the regular expression 's'.
+//
+// Function Logic:
+// The function starts by compiling the regular expression string 's' using the 'regexp.Compile()' function. If there is an error while compiling the regular expression, the function logs a fatal error with the details of the invalid regular expression.
+// Next, the function uses the 're.MatchString()' function to check if the string 'c' matches the compiled regular expression. If the string 'c' does not match the regular expression, the function logs a fatal error with details about the invalid flag and its value.
+//
+// Example Usage:
+//
+// s := `^[a-zA-Z]+$`
+// name := "flag1"
+// value := "invalid123"
+//
+// validate(s, value, name)
+//
+// Output:
+//
+// Fatal error: Invalid flag flag1 with value invalid123, expected regex: ^[a-zA-Z]+$
+//
+// The above example shows the usage of the validate function to validate a string 'value' against a regular expression string 's'. In this case, the regular expression expects only alphabets and does not allow any numbers or special characters. Since the string 'value' contains numbers, the function logs a fatal error with details about the invalid flag and its value.
 func validate(s string, c string, name string) {
 	re, err := regexp.Compile(s)
 	if err != nil {
@@ -254,6 +300,35 @@ func init() {
 	rootCmd.AddCommand(eksCmd)
 }
 
+// Function Name: initConfig
+// Function Signature: func initConfig()
+//
+// Function Description:
+// initConfig is a function that initializes the configuration for the application. It checks if the configuration file path is specified using a command-line flag 'cfgFile'. If the flag is set, the function sets the configuration file path to the value of the flag using the 'viper.SetConfigFile()' function.
+// If the flag is not set, the function attempts to find the home directory of the user using the 'os.UserHomeDir()' function. It then sets the configuration path to a file called ".cobra.yaml" in the user's home directory using the 'viper.AddConfigPath()', 'viper.SetConfigType()', and 'viper.SetConfigName()' functions.
+// The function then reads the configuration values from the file using the 'viper.ReadInConfig()' function. If the configuration file is found and read successfully, the function prints a message indicating the configuration file that is being used.
+//
+// Function Parameters: This function does not take any input parameters.
+//
+// Return Values: This function does not return any values.
+//
+// Function Logic:
+// The function starts by checking if the 'cfgFile' flag is set. If the flag is set, the function sets the configuration file path to the value of the flag using the 'viper.SetConfigFile()' function.
+// If the flag is not set, the function finds the home directory of the user using the 'os.UserHomeDir()' function. It then sets the configuration path to a file called ".cobra.yaml" in the user's home directory using the 'viper.AddConfigPath()', 'viper.SetConfigType()', and 'viper.SetConfigName()' functions.
+// The function then reads the configuration values from the file using the 'viper.ReadInConfig()' function. If the configuration file is found and read successfully, the function prints a message indicating the configuration file that is being used.
+// Finally, the function enables automatic environment variable binding using the 'viper.AutomaticEnv()' function. This allows the application to read configuration values from environment variables as well.
+//
+// Example Usage:
+// The initConfig function is typically called at the beginning of an application to initialize the configuration values. It is usually called from the main function of the application.
+// func main() {
+//     // Initialize configuration
+//     initConfig()
+
+//     // Other application logic
+//     ...
+// }
+//
+// The above example shows the usage of the initConfig function in a typical application. The function is called at the beginning of the main function to initialize the configuration values. The application logic can then use the configuration values by reading them from the 'viper' package.
 func initConfig() {
 	if cfgFile != "" {
 		// Use config file from the flag.
