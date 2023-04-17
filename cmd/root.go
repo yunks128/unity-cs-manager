@@ -160,33 +160,44 @@ var (
 // The function then creates a new NodeGroup struct using the parsed values and appends it to the 'ng' slice.
 // Finally, the function returns the resulting slice of NodeGroups 'ng' and any error that occurred during the processing of the input array.
 func arrayToNodeGroup(groups []string) ([]eks.NodeGroup, error) {
-	ng := []eks.NodeGroup{}
-	for _, g := range groups {
-		s := strings.Split(g, ",")
-		s1, err := strconv.Atoi(s[1])
+	var nodeGroups []eks.NodeGroup
+
+	for _, group := range groups {
+		groupParts := strings.Split(group, ",")
+		if len(groupParts) != 5 {
+			return nil, fmt.Errorf("invalid node group format: %s", group)
+		}
+
+		minSize, err := strconv.Atoi(groupParts[1])
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("invalid cluster min size: %s", groupParts[1])
 		}
-		s2, err := strconv.Atoi(s[2])
+
+		maxSize, err := strconv.Atoi(groupParts[2])
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("invalid cluster max size: %s", groupParts[2])
 		}
-		s3, err := strconv.Atoi(s[3])
+
+		desiredCapacity, err := strconv.Atoi(groupParts[3])
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("invalid cluster desired capacity: %s", groupParts[3])
 		}
-		n := eks.NodeGroup{
-			NodeGroupName:          s[0],
-			ClusterMinSize:         s1,
-			ClusterMaxSize:         s2,
-			ClusterDesiredCapacity: s3,
-			ClusterInstanceType:    s[4],
+
+		nodeGroup := eks.NodeGroup{
+			NodeGroupName:          groupParts[0],
+			ClusterMinSize:         minSize,
+			ClusterMaxSize:         maxSize,
+			ClusterDesiredCapacity: desiredCapacity,
+			ClusterInstanceType:    groupParts[4],
 		}
-		ng = append(ng, n)
+
+		nodeGroups = append(nodeGroups, nodeGroup)
 	}
-	return ng, nil
+
+	return nodeGroups, nil
 }
 
+// Function Name: validate
 // Function Signature: func validate(s string, c string, name string)
 // Function Description:
 // validate is a function that takes in three parameters - a regular expression string 's', a string 'c', and a name string 'name'. The function compiles the regular expression string 's' using the 'regexp.Compile()' function and checks if the string 'c' matches the compiled regular expression. If the string 'c' does not match the regular expression, the function logs a fatal error with details about the invalid flag and its value.
