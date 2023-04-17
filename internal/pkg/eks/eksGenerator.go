@@ -3,6 +3,8 @@ package eks
 import (
 	"os"
 
+	"bytes"
+	"fmt"
 	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/templates"
 )
 import "html/template"
@@ -164,14 +166,14 @@ type AWSTags struct {
 //     log.Fatalf("Failed to generate EKS config: %v", err)
 // }
 // The above example shows the usage of the Generate function to generate an EKS cluster configuration. The function takes in the name, instance type, owner, node groups, and tags as input parameters, and generates an EKS cluster configuration using the predefined template. If there is an error while generating the configuration, the function returns an error.
-func Generate(name, instancetype, owner string, ngs []NodeGroup, tags AWSTags) error {
-	sweaters := EKSConfig{
+func Generate(name, instancetype, owner string, nodeGroups []NodeGroup, tags AWSTags) error {
+	config := EKSConfig{
 		ServiceArn:              os.Getenv("EKSServiceArn"),
 		ClusterName:             name,
 		ClusterRegion:           os.Getenv("EKSClusterRegion"),
 		ClusterVersion:          os.Getenv("EKSClusterVersion"),
 		ClusterInstanceType:     instancetype,
-		ManagedNodeGroups:       ngs,
+		ManagedNodeGroups:       nodeGroups,
 		ClusterAMI:              os.Getenv("EKSClusterAMI"),
 		InstanceRoleArn:         os.Getenv("EKSInstanceRoleArn"),
 		KubeProxyVersion:        os.Getenv("EKSKubeProxyVersion"),
@@ -185,11 +187,16 @@ func Generate(name, instancetype, owner string, ngs []NodeGroup, tags AWSTags) e
 		SharedNodeSecurityGroup: os.Getenv("EKSSharedNodeSecurityGroup"),
 		Tags:                    tags,
 	}
-	tmpl, err := template.New("test").Parse(templates.Eksctl)
+	tmpl, err := template.New("eks-config").Parse(templates.Eksctl)
 	if err != nil {
 		return err
 	}
 
-	_ = tmpl.Execute(os.Stdout, sweaters)
+	var rendered bytes.Buffer
+	if err := tmpl.Execute(&rendered, config); err != nil {
+		return err
+	}
+
+	fmt.Println(rendered.String())
 	return nil
 }
