@@ -90,11 +90,11 @@ managedNodeGroups:
     ami: {{ $.ClusterAMI }}
     amiFamily: AmazonLinux2
     tags:
-      Name: "{{ .Tags.Resourcename }}"
-      Proj: ""
-      CreatedBy: "{{ .Tags.Servicename }}"
-      Env: "{{ .Tags.Venue }}"
-      Stack: "{{ .Tags.Componentname }}"
+      Name: "{{ $.Tags.Resourcename }}"
+      Proj: "{{ $.Tags.Projectname }}"
+      CreatedBy: "{{ $.Tags.Servicename }}"
+      Env: "{{ $.Tags.Venue }}"
+      Stack: "{{ $.Tags.Componentname }}"
       unity-name: "{{ $.Tags.Resourcename }}"
       unity-creator: "{{ $.Tags.Creatoremail }}"
       unity-poc: "{{ $.Tags.Pocemail }}"
