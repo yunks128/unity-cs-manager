@@ -2,13 +2,13 @@ package components
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/hashicorp/hcl/v2/hclwrite"
 	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/hclparser"
-	"strings"
 )
 
 func parseElastic(f *hclwrite.File, bl string, subnet []string, securitygroup []string, venue string, project string) error {
-
 	instancesize := ""
 	instancecount := ""
 	if venue == "dev" {
@@ -22,13 +22,13 @@ func parseElastic(f *hclwrite.File, bl string, subnet []string, securitygroup []
 		instancecount = "3"
 	}
 
-	//ES version
+	// ES version
 	f, err := hclparser.AddAttribute(f, fmt.Sprintf("%v.elasticsearch_version", bl), "7.10", false)
 	if err != nil {
 		fmt.Printf("%v", err)
 	}
 
-	//Tags
+	// Tags
 	baf := hclparser.NewBlockAppendFilter(bl, "tags", true)
 	f, err = baf.Filter(f)
 	if err != nil {
@@ -38,7 +38,7 @@ func parseElastic(f *hclwrite.File, bl string, subnet []string, securitygroup []
 	if err != nil {
 		return err
 	}
-	//Cluster Config
+	// Cluster Config
 	baf = hclparser.NewBlockAppendFilter(bl, "cluster_config", true)
 	f, err = baf.Filter(f)
 	if err != nil {
@@ -58,7 +58,7 @@ func parseElastic(f *hclwrite.File, bl string, subnet []string, securitygroup []
 		fmt.Printf("%v", err)
 	}
 
-	//VPC Options
+	// VPC Options
 	baf = hclparser.NewBlockAppendFilter(bl, "vpc_options", true)
 	f, err = baf.Filter(f)
 	if err != nil {
@@ -75,7 +75,7 @@ func parseElastic(f *hclwrite.File, bl string, subnet []string, securitygroup []
 		fmt.Printf("%v", err)
 	}
 
-	//EBS OPTION
+	// EBS OPTION
 	baf = hclparser.NewBlockAppendFilter(bl, "ebs_options", true)
 	f, err = baf.Filter(f)
 	if err != nil {
@@ -86,7 +86,7 @@ func parseElastic(f *hclwrite.File, bl string, subnet []string, securitygroup []
 		fmt.Printf("%v", err)
 	}
 
-	//Advanced Security Options
+	// Advanced Security Options
 	baf = hclparser.NewBlockAppendFilter(bl, "advanced_security_options", true)
 	f, err = baf.Filter(f)
 	if err != nil {
@@ -118,7 +118,7 @@ func parseElastic(f *hclwrite.File, bl string, subnet []string, securitygroup []
 	//	fmt.Printf("%v", err)
 	//}
 
-	//Domain Endpoint Options
+	// Domain Endpoint Options
 	baf = hclparser.NewBlockAppendFilter(bl, "domain_endpoint_options", true)
 	f, err = baf.Filter(f)
 	if err != nil {
@@ -134,7 +134,7 @@ func parseElastic(f *hclwrite.File, bl string, subnet []string, securitygroup []
 		fmt.Printf("%v", err)
 	}
 
-	//Node to Node Encryption
+	// Node to Node Encryption
 	baf = hclparser.NewBlockAppendFilter(bl, "node_to_node_encryption", true)
 	f, err = baf.Filter(f)
 	if err != nil {
@@ -145,13 +145,13 @@ func parseElastic(f *hclwrite.File, bl string, subnet []string, securitygroup []
 		fmt.Printf("%v", err)
 	}
 
-	//Encrypt At Rest
+	// Encrypt At Rest
 	baf = hclparser.NewBlockAppendFilter(bl, "encrypt_at_rest", true)
 	f, err = baf.Filter(f)
 	if err != nil {
 		fmt.Printf("%v", err)
 	}
-	f, err = hclparser.AddAttribute(f, fmt.Sprintf("%v.encrypt_at_rest.enabled", bl), "true", false)
+	_, err = hclparser.AddAttribute(f, fmt.Sprintf("%v.encrypt_at_rest.enabled", bl), "true", false)
 	if err != nil {
 		fmt.Printf("%v", err)
 	}

@@ -31,7 +31,6 @@ type Mandatorytags struct {
 }
 
 func GenerateMandatoryTags(creator string, pocs []string, venue, project, servicearea, capability, component, capversion, release, securityplan, exposed, experimental, userfacing, critinfra, sourcecontrol string) Mandatorytags {
-
 	mtags := Mandatorytags{
 		Name:           fmt.Sprintf("%v-%v-%v-%v-%v", project, venue, servicearea, capability, component),
 		Creator:        creator,
@@ -60,7 +59,7 @@ func GenerateMandatoryTags(creator string, pocs []string, venue, project, servic
 	return mtags
 }
 
-func generateEC2Tags() {
+/*func generateEC2Tags() {
 
 }
 
@@ -86,4 +85,4 @@ func generateSSMTags() {
 
 func generateKMSTags() {
 
-}
+}*/

@@ -1,8 +1,9 @@
 package eks
 
 import (
-	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/templates"
 	"os"
+
+	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/templates"
 )
 import "html/template"
 
@@ -19,8 +20,10 @@ type EKSConfig struct {
 	KubeProxyVersion        string
 	EBSCSIVersion           string
 	CoreDNSVersion          string
-	SubnetConfigA           string
-	SubnetConfigB           string
+	PublicSubnetA           string
+	PublicSubnetB           string
+	PrivateSubnetA          string
+	PrivateSubnetB          string
 	SecurityGroup           string
 	SharedNodeSecurityGroup string
 	ClusterInstanceType     string
@@ -71,8 +74,10 @@ func Generate(name, instancetype, owner string, ngs []NodeGroup, tags AWSTags) e
 		KubeProxyVersion:        os.Getenv("EKSKubeProxyVersion"),
 		CoreDNSVersion:          os.Getenv("EKSCoreDNSVersion"),
 		EBSCSIVersion:           os.Getenv("EKSEBSCSIVersion"),
-		SubnetConfigA:           os.Getenv("EKSSubnetConfigA"),
-		SubnetConfigB:           os.Getenv("EKSSubnetConfigB"),
+		PublicSubnetA:           os.Getenv("EKSPublicSubnetA"),
+		PublicSubnetB:           os.Getenv("EKSPublicSubnetB"),
+		PrivateSubnetA:          os.Getenv("EKSPrivateSubnetA"),
+		PrivateSubnetB:          os.Getenv("EKSPrivateSubnetB"),
 		SecurityGroup:           os.Getenv("EKSSecurityGroup"),
 		SharedNodeSecurityGroup: os.Getenv("EKSSharedNodeSecurityGroup"),
 		Tags:                    tags,
@@ -82,6 +87,6 @@ func Generate(name, instancetype, owner string, ngs []NodeGroup, tags AWSTags) e
 		return err
 	}
 
-	err = tmpl.Execute(os.Stdout, sweaters)
+	_ = tmpl.Execute(os.Stdout, sweaters)
 	return nil
 }

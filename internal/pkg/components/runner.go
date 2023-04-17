@@ -2,19 +2,19 @@ package components
 
 import (
 	"fmt"
-	"github.com/hashicorp/hcl/v2"
-	"github.com/hashicorp/hcl/v2/hclwrite"
-	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/hclparser"
-	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/tagging"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl/v2/hclwrite"
+	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/hclparser"
+	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/tagging"
 )
 
 func Runp(path string, tags tagging.Mandatorytags, subnet, secgroup []string) {
-
 	items, _ := ioutil.ReadDir(path)
 	for _, item := range items {
 		if item.IsDir() {
@@ -58,7 +58,7 @@ func parseFile(path string, tags tagging.Mandatorytags, subnet, secgroup []strin
 		}
 		switch blocktype {
 		case "aws_elasticsearch_domain":
-			//err = parseElastic(fwr, "resource.aws_elasticsearch_domain.unity-sample")
+			// err = parseElastic(fwr, "resource.aws_elasticsearch_domain.unity-sample")
 			err = parseElastic(fwr, b, subnet, secgroup, tags.Venue, tags.Project)
 			if err != nil {
 				fmt.Printf("%v", err)
@@ -78,18 +78,16 @@ func parseFile(path string, tags tagging.Mandatorytags, subnet, secgroup []strin
 		}
 	}
 	fmt.Printf("%v", string(fwr.Bytes()))
-	tfFile, err := os.Create("output/" + filepath.Base(path))
-	tfFile.Write(fwr.Bytes())
+	tfFile, _ := os.Create("output/" + filepath.Base(path))
+	_, _ = tfFile.Write(fwr.Bytes())
 }
 
 func getBlocks(f *hclwrite.File) ([]string, error) {
-
 	bl := hclparser.NewBlockListSink()
 	return bl.Sink(f)
-
 }
 
-func addTagsToBlocks(f *hclwrite.File) error {
+/*func addTagsToBlocks(f *hclwrite.File) error {
 	blocks, err := getBlocks(f)
 	if err != nil {
 		return err
@@ -116,6 +114,6 @@ func addTagsToBlocks(f *hclwrite.File) error {
 		address: "resource.aws_eip.ip-test-env.tags.unityname",
 		value:   "myunitydeployment",
 	}
-	f, err = as.Filter(f)*/
+	f, err = as.Filter(f)
 	return err
-}
+}*/

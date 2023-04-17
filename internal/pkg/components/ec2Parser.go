@@ -2,19 +2,20 @@ package components
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/hashicorp/hcl/v2/hclwrite"
 	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/hclparser"
-	"strings"
 )
 
 func parseEC2(f *hclwrite.File, bl string, subnet, secgroup []string, venue string) error {
-	//AMI
+	// AMI
 	f, err := hclparser.AddAttribute(f, fmt.Sprintf("%v.ami", bl), "amiid", false)
 	if err != nil {
 		fmt.Printf("%v", err)
 	}
 
-	//Instance Type
+	// Instance Type
 	instancetype := ""
 	if venue == "dev" {
 		instancetype = "t3.medium"
@@ -28,20 +29,20 @@ func parseEC2(f *hclwrite.File, bl string, subnet, secgroup []string, venue stri
 		fmt.Printf("%v", err)
 	}
 
-	//Key Name
+	// Key Name
 	f, err = hclparser.AddAttribute(f, fmt.Sprintf("%v.key_name", bl), "mykey", false)
 	if err != nil {
 		fmt.Printf("%v", err)
 	}
 
-	//VPC Security Ids
+	// VPC Security Ids
 	f, err = hclparser.AddAttribute(f, fmt.Sprintf("%v.vpc_security_group_ids", bl), fmt.Sprintf("[%v]", strings.Join(secgroup, ",")), false)
 	if err != nil {
 		fmt.Printf("%v", err)
 	}
 
 	// Subnet Id
-	f, err = hclparser.AddAttribute(f, fmt.Sprintf("%v.subnet_id", bl), fmt.Sprintf("%v\n", subnet[0]), false)
+	_, err = hclparser.AddAttribute(f, fmt.Sprintf("%v.subnet_id", bl), fmt.Sprintf("%v\n", subnet[0]), false)
 	if err != nil {
 		fmt.Printf("%v", err)
 	}

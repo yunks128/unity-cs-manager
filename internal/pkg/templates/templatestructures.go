@@ -66,9 +66,16 @@ addons:
     version: {{ .EBSCSIVersion}}
 vpc:
   subnets:
+{{if .PrivateSubnetA}}
     private:
-      {{ .SubnetConfigA }}
-      {{ .SubnetConfigB }}
+      {{ .PrivateSubnetA }}
+      {{ .PrivateSubnetB }}
+{{end}}
+{{if .PublicSubnetA}}
+    public:
+      {{ .PublicSubnetA }}
+      {{ .PublicSubnetB }}
+{{end}}
   securityGroup: {{ .SecurityGroup }}
   sharedNodeSecurityGroup: {{ .SharedNodeSecurityGroup }}
   manageSharedNodeSecurityGroupRules: false
@@ -106,7 +113,7 @@ managedNodeGroups:
       unity-source-control: "{{ $.Tags.Sourcecontrol }}"
     iam:
       instanceRoleARN: {{ $.InstanceRoleArn }}
-    privateNetworking: true
+    privateNetworking: false
     overrideBootstrapCommand: |
       #!/bin/bash
       /etc/eks/bootstrap.sh {{ $.ClusterName }}

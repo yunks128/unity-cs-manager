@@ -2,9 +2,10 @@ package hclparser
 
 import (
 	"errors"
+	"strings"
+
 	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/hashicorp/hcl/v2/hclwrite"
-	"strings"
 )
 
 // AttributeGetSink is a sink implementation for getting a value of attribute.
@@ -35,13 +36,13 @@ func (s *AttributeGetSink) Sink(inFile *hclwrite.File) ([]string, error) {
 
 	// treat expr as a string without interpreting its meaning.
 	out, err := GetAttributeValueAsString(attr)
-
 	if err != nil {
 		return []string{}, err
 	}
 
 	return []string{out + "\n"}, nil
 }
+
 func findAttribute(body *hclwrite.Body, address string) (*hclwrite.Attribute, *hclwrite.Body, error) {
 	if len(address) == 0 {
 		return nil, nil, errors.New("failed to parse address. address is empty")

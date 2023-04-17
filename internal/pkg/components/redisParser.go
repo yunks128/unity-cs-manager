@@ -1,12 +1,6 @@
 package components
 
-import (
-	"fmt"
-	"github.com/hashicorp/hcl/v2/hclwrite"
-	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/hclparser"
-)
-
-func parseRedis(f *hclwrite.File, bl string) error {
+/*func parseRedis(f *hclwrite.File, bl string) error {
 
 	// ACL NAME
 	f, err := hclparser.AddAttribute(f, fmt.Sprintf("%v.acl_name", bl), "open-access", false)
@@ -48,4 +42,4 @@ func parseRedis(f *hclwrite.File, bl string) error {
 	// Tags
 
 	return nil
-}
+}*/
