@@ -26,6 +26,20 @@ message Install {
       string owner = 2;
       string projectname = 3;
       repeated Nodegroups nodegroups = 4;
+      string EKSServiceArn = 5;
+      string EKSClusterRegion = 6;
+      string EKSClusterVersion = 7;
+      string EKSClusterAMI = 8;
+      string EKSInstanceRoleArn = 9;
+      string EKSKubeProxyVersion = 10;
+      string EKSCoreDNSVersion = 11;
+      string EKSEBSCSIVersion = 12;
+      string EKSPublicSubnetA = 13;
+      string EKSPublicSubnetB = 14;
+      string EKSPrivateSubnetA = 15;
+      string EKSPrivateSubnetB = 16;
+      string EKSSecurityGroup = 17;
+      string EKSSharedNodeSecurityGroup = 18;
     }
 
     Eks eks = 1;
