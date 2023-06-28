@@ -1,12 +1,12 @@
 package eks
 
 import (
-	"github.com/unity-sds/unity-cs-terraform-transformer/internal/marketplace"
+	"github.com/unity-sds/unity-cs-manager/internal/marketplace"
 	"os"
 
 	"bytes"
 	"fmt"
-	"github.com/unity-sds/unity-cs-terraform-transformer/internal/pkg/templates"
+	"github.com/unity-sds/unity-cs-manager/internal/pkg/templates"
 )
 import "html/template"
 
