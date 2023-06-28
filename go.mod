@@ -1,4 +1,4 @@
-module github.com/unity-sds/unity-cs-terraform-transformer
+module github.com/unity-sds/unity-cs-manager
 
 go 1.17
 

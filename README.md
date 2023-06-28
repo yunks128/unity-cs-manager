@@ -73,3 +73,9 @@ Interested in contributing to our project? Please see our: [CONTRIBUTING.md](CON
 ## License
 
 See our: [LICENSE](LICENSE)
+
+
+
+## Compiling protobuf
+
+protoc --proto_path=unity-management-console/protobuf --go_out=internal/marketplace/ --go_opt=paths=source_relative config.proto extensions.proto marketplace.proto

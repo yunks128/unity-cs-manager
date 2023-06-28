@@ -1,6 +1,7 @@
 package eks
 
 import (
+	"github.com/unity-sds/unity-cs-terraform-transformer/internal/marketplace"
 	"os"
 
 	"bytes"
@@ -74,13 +75,15 @@ type EKSConfig struct {
 // 4. ClusterDesiredCapacity int: The desired capacity of nodes in the managed node group.
 // 5. ClusterInstanceType string: The instance type of nodes in the managed node group.
 // Example Usage:
-// nodeGroup := NodeGroup{
-//     NodeGroupName: "my-node-group",
-//     ClusterMinSize: 1,
-//     ClusterMaxSize: 5,
-//     ClusterDesiredCapacity: 3,
-//     ClusterInstanceType: "t3.medium",
-// }
+//
+//	nodeGroup := NodeGroup{
+//	    NodeGroupName: "my-node-group",
+//	    ClusterMinSize: 1,
+//	    ClusterMaxSize: 5,
+//	    ClusterDesiredCapacity: 3,
+//	    ClusterInstanceType: "t3.medium",
+//	}
+//
 // The above example shows the usage of the NodeGroup struct to define a managed node group in an EKS cluster. The struct contains fields that define the various configuration parameters required to create the managed node group, such as the minimum and maximum number of nodes, the desired capacity, and the instance type of the nodes.
 type NodeGroup struct {
 	NodeGroupName          string
@@ -162,9 +165,11 @@ type AWSTags struct {
 // The Generate function creates an EKSConfig struct by assigning values to its fields using the input parameters and environment variables. It then creates a template using the Eksctl constant from the templates package. Finally, the function executes the template with the EKSConfig struct as the input, and writes the generated configuration to the standard output.
 // Example Usage:
 // err := Generate("my-cluster", "t3.medium", "John Doe", []NodeGroup{}, AWSTags{})
-// if err != nil {
-//     log.Fatalf("Failed to generate EKS config: %v", err)
-// }
+//
+//	if err != nil {
+//	    log.Fatalf("Failed to generate EKS config: %v", err)
+//	}
+//
 // The above example shows the usage of the Generate function to generate an EKS cluster configuration. The function takes in the name, instance type, owner, node groups, and tags as input parameters, and generates an EKS cluster configuration using the predefined template. If there is an error while generating the configuration, the function returns an error.
 func Generate(name, instancetype, owner string, nodeGroups []NodeGroup, tags AWSTags) error {
 	config := EKSConfig{
@@ -199,4 +204,41 @@ func Generate(name, instancetype, owner string, nodeGroups []NodeGroup, tags AWS
 
 	fmt.Println(rendered.String())
 	return nil
+}
+
+func ProtoGenerate(model marketplace.Install_Extensions_Eks) (string, error) {
+	nodeGroups := []NodeGroup{}
+	tags := AWSTags{}
+	config := EKSConfig{
+		ServiceArn:              os.Getenv("EKSServiceArn"),
+		ClusterName:             model.Clustername,
+		ClusterRegion:           os.Getenv("EKSClusterRegion"),
+		ClusterVersion:          os.Getenv("EKSClusterVersion"),
+		ClusterInstanceType:     model.Nodegroups[0].Instancetype,
+		ManagedNodeGroups:       nodeGroups,
+		ClusterAMI:              os.Getenv("EKSClusterAMI"),
+		InstanceRoleArn:         os.Getenv("EKSInstanceRoleArn"),
+		KubeProxyVersion:        os.Getenv("EKSKubeProxyVersion"),
+		CoreDNSVersion:          os.Getenv("EKSCoreDNSVersion"),
+		EBSCSIVersion:           os.Getenv("EKSEBSCSIVersion"),
+		PublicSubnetA:           os.Getenv("EKSPublicSubnetA"),
+		PublicSubnetB:           os.Getenv("EKSPublicSubnetB"),
+		PrivateSubnetA:          os.Getenv("EKSPrivateSubnetA"),
+		PrivateSubnetB:          os.Getenv("EKSPrivateSubnetB"),
+		SecurityGroup:           os.Getenv("EKSSecurityGroup"),
+		SharedNodeSecurityGroup: os.Getenv("EKSSharedNodeSecurityGroup"),
+		Tags:                    tags,
+	}
+	tmpl, err := template.New("eks-config").Parse(templates.Eksctl)
+	if err != nil {
+		return "", err
+	}
+
+	var rendered bytes.Buffer
+	if err := tmpl.Execute(&rendered, config); err != nil {
+		return "", err
+	}
+
+	fmt.Println(rendered.String())
+	return rendered.String(), nil
 }

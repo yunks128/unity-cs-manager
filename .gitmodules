@@ -1,0 +1,3 @@
+[submodule "unity-management-console"]
+	path = unity-management-console
+	url = https://github.com/unity-sds/unity-management-console.git
