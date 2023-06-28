@@ -2,8 +2,8 @@ package lib
 
 import (
 	"github.com/golang/protobuf/proto"
-	"github.com/unity-sds/unity-cs-manager/internal/marketplace"
 	"github.com/unity-sds/unity-cs-manager/internal/pkg/eks"
+	"github.com/unity-sds/unity-cs-manager/marketplace"
 )
 
 func GenerateEKSTemplate(arr []byte) (string, error) {

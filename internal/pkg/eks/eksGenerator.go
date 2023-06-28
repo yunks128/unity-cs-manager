@@ -1,7 +1,7 @@
 package eks
 
 import (
-	"github.com/unity-sds/unity-cs-manager/internal/marketplace"
+	"github.com/unity-sds/unity-cs-manager/marketplace"
 	"os"
 
 	"bytes"
