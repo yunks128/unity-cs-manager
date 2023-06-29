@@ -5,6 +5,8 @@ message Config {
 
   message ApplicationConfig {
     string GithubToken = 1;
+    string MarketplaceOwner = 2;
+    string MarketplaceUser = 3;
   }
 
   message NetworkConfig {
