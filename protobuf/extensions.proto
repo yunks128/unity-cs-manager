@@ -1,6 +1,11 @@
 syntax = "proto3";
 option go_package = "backend/internal/marketplace";
 
+message WebsocketMessage {
+  oneof content {
+    Install install = 1;
+  }
+}
 message Install {
 
   message Applications {
