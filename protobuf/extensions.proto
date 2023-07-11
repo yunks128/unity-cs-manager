@@ -9,45 +9,7 @@ message Install {
     map<string, string> variables = 3;
   }
 
-  message Extensions {
-
-    message Apigateway {
-      repeated string name = 1;
-    }
-
-    message Nodegroups {
-      string name = 1;
-      string instancetype = 2;
-      string nodecount = 3;
-    }
-
-    message Eks {
-      string clustername = 1;
-      string owner = 2;
-      string projectname = 3;
-      repeated Nodegroups nodegroups = 4;
-      string EKSServiceArn = 5;
-      string EKSClusterRegion = 6;
-      string EKSClusterVersion = 7;
-      string EKSClusterAMI = 8;
-      string EKSInstanceRoleArn = 9;
-      string EKSKubeProxyVersion = 10;
-      string EKSCoreDNSVersion = 11;
-      string EKSEBSCSIVersion = 12;
-      string EKSPublicSubnetA = 13;
-      string EKSPublicSubnetB = 14;
-      string EKSPrivateSubnetA = 15;
-      string EKSPrivateSubnetB = 16;
-      string EKSSecurityGroup = 17;
-      string EKSSharedNodeSecurityGroup = 18;
-    }
-
-    Eks eks = 1;
-    Apigateway apigateway = 2;
-  }
-
   Applications applications = 1;
-  Extensions extensions = 2;
   string DeploymentName = 3;
 }
 
