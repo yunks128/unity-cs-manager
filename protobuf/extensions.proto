@@ -5,8 +5,15 @@ message WebsocketMessage {
   oneof content {
     Install install = 1;
     SimpleMessage simplemessage = 2;
+    ConnectionSetup connectionsetup = 3;
   }
 }
+
+message ConnectionSetup {
+  string type = 1;
+  string userID = 2;
+}
+
 message Install {
 
   message Applications {
