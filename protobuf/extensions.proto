@@ -1,7 +1,7 @@
 syntax = "proto3";
 option go_package = "backend/internal/marketplace";
 
-message WebsocketMessage {
+message UnityWebsocketMessage {
   oneof content {
     Install install = 1;
     SimpleMessage simplemessage = 2;
