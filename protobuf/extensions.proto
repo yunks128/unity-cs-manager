@@ -4,6 +4,7 @@ option go_package = "backend/internal/marketplace";
 message WebsocketMessage {
   oneof content {
     Install install = 1;
+    SimpleMessage simplemessage = 2;
   }
 }
 message Install {
@@ -16,6 +17,13 @@ message Install {
 
   Applications applications = 1;
   string DeploymentName = 3;
+}
+
+message SimpleMessage {
+
+  string operation = 1;
+  string payload = 2;
+
 }
 
 
