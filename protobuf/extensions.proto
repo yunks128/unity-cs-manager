@@ -6,6 +6,8 @@ message UnityWebsocketMessage {
     Install install = 1;
     SimpleMessage simplemessage = 2;
     ConnectionSetup connectionsetup = 3;
+    Config config = 4;
+    Parameters parameters = 5;
   }
 }
 
@@ -33,47 +35,31 @@ message SimpleMessage {
 
 }
 
+message Config {
 
-message ActionMeta {
-
-  message Services {
-    string name = 1;
-    string source = 2;
-    string version = 3;
-    string branch = 4;
+  message ApplicationConfig {
+    string GithubToken = 1;
+    string MarketplaceOwner = 2;
+    string MarketplaceUser = 3;
   }
 
-  message Extensions {
-
-    message Apis {
-      string name = 1;
-    }
-
-    message Apigateway {
-      repeated Apis apis = 1;
-    }
-
-    message Nodegroups {
-      string name = 1;
-      string instancetype = 2;
-      string nodecount = 3;
-    }
-
-    message Eks {
-      string clustername = 1;
-      string owner = 2;
-      string projectname = 3;
-      repeated Nodegroups nodegroups = 4;
-    }
-
-    Eks eks = 1;
-    Apigateway apis = 2;
+  message NetworkConfig {
+    repeated string publicsubnets = 1;
+    repeated string privatesubnets = 2;
   }
 
-  string metadataVersion = 1;
-  string exectarget = 2;
-  string deploymentName = 3;
-  repeated Services services = 4;
-  Extensions extensions = 5;
-  string deploymentType = 6;
+  ApplicationConfig applicationConfig = 1;
+  NetworkConfig networkConfig = 2;
+
+}
+
+message Parameters {
+
+  message Parameter {
+    string value = 2;
+    string type = 3;
+    bool tracked = 4;
+    bool insync = 5;
+  }
+  map<string, Parameter> parameterlist = 1;
 }
