@@ -56,6 +56,7 @@ message Config {
 message Parameters {
 
   message Parameter {
+    string name = 1;
     string value = 2;
     string type = 3;
     bool tracked = 4;
