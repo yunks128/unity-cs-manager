@@ -8,6 +8,7 @@ message UnityWebsocketMessage {
     ConnectionSetup connectionsetup = 3;
     Config config = 4;
     Parameters parameters = 5;
+    LogLine logs = 6;
   }
 }
 
@@ -63,4 +64,13 @@ message Parameters {
     bool insync = 5;
   }
   map<string, Parameter> parameterlist = 1;
+}
+
+
+message LogLine {
+
+  string line = 1;
+  string level = 2;
+  string timestamp = 3;
+  string type = 4;
 }
