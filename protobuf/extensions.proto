@@ -25,15 +25,16 @@ message Install {
   }
 
   message SubMap {
-    map<string, TypeMap> values = 1;
+    TypeMap Options = 1;
   }
   message InnerMap {
-    map<string, SubMap> values = 1;
+    map<string, SubMap> Config = 1;
+    string Type = 2;
   }
 
   message Variables {
-    map<string, string> values = 1;
-    map<string, InnerMap> nestedvalues = 2;
+    map<string, string> Values = 1;
+    map<string, InnerMap> NestedValues = 2;
   }
 
   message Applications {
