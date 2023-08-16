@@ -27,15 +27,15 @@ message MarketplaceMetadata {
   }
 
   message SubMap {
-    map<string, TypeMap> values = 1;
+    map<string, TypeMap> Config = 1;
   }
   message InnerMap {
-    map<string, SubMap> values = 1;
+    map<string, SubMap> Options = 1;
   }
 
   message Variables {
-    map<string, string> values = 1;
-    map<string, InnerMap> nestedvalues = 2;
+    map<string, string> Values = 1;
+    map<string, InnerMap> NestedValue = 2;
   }
 
   message Defaultdeployment {
