@@ -21,28 +21,17 @@ message MarketplaceMetadata {
     Eks Eks = 1;
   }
 
+  message InnerMap {
+    map<string, string> values = 1;
+  }
+
   message Variables {
-    string some_terraform_variable = 1;
-  }
-
-  message Nodegroup1 {
-    uint32 MinNodes = 1;
-    uint32 MaxNodes = 2;
-    uint32 DesiredNodes = 3;
-    string InstanceType = 4;
-  }
-
-  message Nodegroups {
-    Nodegroup1 NodeGroup1 = 1;
-  }
-
-  message Eksspec {
-    repeated Nodegroups NodeGroups = 1;
+    map<string, string> values = 1;
+    map<string, InnerMap> nestedvalues = 2;
   }
 
   message Defaultdeployment {
     Variables Variables = 1;
-    Eksspec EksSpec = 2;
   }
 
   string Name = 1;
