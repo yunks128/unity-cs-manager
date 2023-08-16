@@ -21,8 +21,16 @@ message MarketplaceMetadata {
     Eks Eks = 1;
   }
 
+  message TypeMap {
+    string type = 1;
+    string default = 2;
+  }
+
+  message SubMap {
+    map<string, TypeMap> values = 1;
+  }
   message InnerMap {
-    map<string, string> values = 1;
+    map<string, SubMap> values = 1;
   }
 
   message Variables {
