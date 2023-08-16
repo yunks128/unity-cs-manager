@@ -27,10 +27,11 @@ message MarketplaceMetadata {
   }
 
   message SubMap {
-    map<string, TypeMap> Options = 1;
+    TypeMap Options = 1;
   }
   message InnerMap {
     map<string, SubMap> Config = 1;
+    string Type = 2;
   }
 
   message Variables {
