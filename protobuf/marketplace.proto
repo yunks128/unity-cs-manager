@@ -1,5 +1,6 @@
 syntax = "proto3";
 option go_package = "backend/internal/marketplace";
+import "google/protobuf/struct.proto";
 
 message MarketplaceMetadata {
 
@@ -37,6 +38,7 @@ message MarketplaceMetadata {
   message Variables {
     map<string, string> Values = 1;
     map<string, InnerMap> NestedValues = 2;
+    google.protobuf.Struct AdvancedValues = 3;
   }
 
   message Defaultdeployment {

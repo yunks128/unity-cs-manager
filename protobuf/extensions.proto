@@ -1,5 +1,6 @@
 syntax = "proto3";
 option go_package = "backend/internal/marketplace";
+import "google/protobuf/struct.proto";
 
 message UnityWebsocketMessage {
   oneof content {
@@ -35,6 +36,7 @@ message Install {
   message Variables {
     map<string, string> Values = 1;
     map<string, InnerMap> NestedValues = 2;
+    google.protobuf.Struct AdvancedValues = 3;
   }
 
   message Applications {
