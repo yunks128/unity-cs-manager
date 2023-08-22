@@ -14,26 +14,8 @@ message MarketplaceMetadata {
     repeated Statement Statement = 1;
   }
 
-  message Manageddependencies {
-    string packagename = 1;
-  }
-
-  message TypeMap {
-    string type = 1;
-    string default = 2;
-  }
-
-  message SubMap {
-    TypeMap Options = 1;
-  }
-  message InnerMap {
-    map<string, SubMap> Config = 1;
-    string Type = 2;
-  }
-
   message Variables {
     map<string, string> Values = 1;
-    map<string, InnerMap> NestedValues = 2;
     google.protobuf.Struct AdvancedValues = 3;
   }
 
@@ -52,7 +34,7 @@ message MarketplaceMetadata {
   string Category = 8;
   Iamroles IamRoles = 9;
   string Package = 10;
-  repeated Manageddependencies ManagedDependencies = 11;
+  google.protobuf.Struct ManagedDependencies = 11;
   string Backend = 12;
   string Entrypoint = 13;
   string WorkDirectory = 16;
