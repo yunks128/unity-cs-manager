@@ -44,6 +44,7 @@ message Install {
     string version = 2;
     Variables variables = 3;
     string postinstall = 4;
+    string preinstall = 5;
   }
 
   Applications applications = 1;
