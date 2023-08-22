@@ -61,6 +61,6 @@ message MarketplaceMetadata {
   string Entrypoint = 13;
   string WorkDirectory = 16;
   string PostInstall = 17;
-
+  string PreInstall = 18;
   Defaultdeployment DefaultDeployment = 14;
 }
