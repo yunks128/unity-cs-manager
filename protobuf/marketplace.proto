@@ -14,12 +14,8 @@ message MarketplaceMetadata {
     repeated Statement Statement = 1;
   }
 
-  message Eks {
-    string MinimumVersion = 1;
-  }
-
   message Manageddependencies {
-    Eks Eks = 1;
+    string packagename = 1;
   }
 
   message TypeMap {
