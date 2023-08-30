@@ -73,6 +73,8 @@ message Config {
 
   ApplicationConfig applicationConfig = 1;
   NetworkConfig networkConfig = 2;
+  string lastupdated = 3;
+  string updatedby = 4;
 
 }
 
