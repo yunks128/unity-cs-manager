@@ -10,7 +10,7 @@ message UnityWebsocketMessage {
     Config config = 4;
     Parameters parameters = 5;
     LogLine logs = 6;
-    Deployments apps = 7;
+    Deployments deployments = 7;
   }
 }
 
@@ -20,11 +20,14 @@ message Application {
   string source = 3;
   string status = 4;
 }
-message Deployments {
+message Deployment {
   string name = 1;
   string creator = 2;
   string creationdate = 3;
   repeated Application application = 4;
+}
+message Deployments {
+  repeated Deployment deployment = 1;
 }
 message ConnectionSetup {
   string type = 1;
