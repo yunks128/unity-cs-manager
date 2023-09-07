@@ -10,9 +10,22 @@ message UnityWebsocketMessage {
     Config config = 4;
     Parameters parameters = 5;
     LogLine logs = 6;
+    Deployments apps = 7;
   }
 }
 
+message Application {
+  string name = 1;
+  string version = 2;
+  string source = 3;
+  string status = 4;
+}
+message Deployments {
+  string name = 1;
+  string creator = 2;
+  string creationdate = 3;
+  repeated Application application = 4;
+}
 message ConnectionSetup {
   string type = 1;
   string userID = 2;
