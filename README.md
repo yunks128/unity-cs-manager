@@ -51,6 +51,10 @@ required adjustments, adding, removing or appending blocks with the correct info
 1. Grab binary from Packages page.
 1. Open a terminal.
 
+#### Compiling protobuf
+
+protoc --proto_path=unity-management-console/protobuf --go_out=internal/marketplace/ --go_opt=paths=source_relative config.proto extensions.proto marketplace.proto
+
 ### Run Instructions
 
 ```shell
@@ -74,8 +78,9 @@ Interested in contributing to our project? Please see our: [CONTRIBUTING.md](CON
 
 See our: [LICENSE](LICENSE)
 
+## Support
 
+Key points of contact are:
 
-## Compiling protobuf
-
-protoc --proto_path=unity-management-console/protobuf --go_out=internal/marketplace/ --go_opt=paths=source_relative config.proto extensions.proto marketplace.proto
+[@galenatjpl](https://github.com/galenatjpl)
+<!-- ☝️ Replace with the key individuals who should be contacted for questions ☝️ -->
