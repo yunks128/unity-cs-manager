@@ -15,10 +15,11 @@ message UnityWebsocketMessage {
 }
 
 message Application {
-  string name = 1;
+  string packageName = 1;
   string version = 2;
   string source = 3;
   string status = 4;
+  string applicationName = 5;
 }
 message Deployment {
   string name = 1;
