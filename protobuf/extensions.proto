@@ -62,6 +62,7 @@ message Install {
     Variables variables = 3;
     string postinstall = 4;
     string preinstall = 5;
+    string displayname = 6;
   }
 
   Applications applications = 1;
