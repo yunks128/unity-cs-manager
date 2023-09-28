@@ -20,6 +20,7 @@ message Application {
   string source = 3;
   string status = 4;
   string applicationName = 5;
+  string displayName = 6;
 }
 message Deployment {
   string name = 1;
