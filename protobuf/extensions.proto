@@ -38,22 +38,8 @@ message ConnectionSetup {
 
 message Install {
 
-  message TypeMap {
-    string type = 1;
-    string default = 2;
-  }
-
-  message SubMap {
-    TypeMap Options = 1;
-  }
-  message InnerMap {
-    map<string, SubMap> Config = 1;
-    string Type = 2;
-  }
-
   message Variables {
     map<string, string> Values = 1;
-    map<string, InnerMap> NestedValues = 2;
     google.protobuf.Struct AdvancedValues = 3;
   }
 
@@ -64,6 +50,7 @@ message Install {
     string postinstall = 4;
     string preinstall = 5;
     string displayname = 6;
+    map<string, string> dependencies = 7;
   }
 
   Applications applications = 1;
