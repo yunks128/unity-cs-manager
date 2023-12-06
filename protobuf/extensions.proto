@@ -81,6 +81,7 @@ message Config {
   NetworkConfig networkConfig = 2;
   string lastupdated = 3;
   string updatedby = 4;
+  string bootstrap = 5;
 
 }
 
