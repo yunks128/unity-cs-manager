@@ -61,6 +61,7 @@ message Install {
 message Uninstall{
   string DeploymentName = 1;
   string Application = 2;
+  string DisplayName = 4;
   bool All = 3;
 }
 
