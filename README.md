@@ -1,3 +1,5 @@
+GOPROXY=direct go get -u github.com/unity-sds/unity-cs-manager@main
+
 ![logo](https://user-images.githubusercontent.com/3129134/163247802-ad001e00-15a6-4d6e-9824-2106cb022dd7.png)
 
 # Unity CS Terraform Transformer
