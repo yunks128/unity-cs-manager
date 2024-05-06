@@ -981,6 +981,8 @@ type Config_ApplicationConfig struct {
 	GithubToken      string `protobuf:"bytes,1,opt,name=GithubToken,proto3" json:"GithubToken,omitempty"`
 	MarketplaceOwner string `protobuf:"bytes,2,opt,name=MarketplaceOwner,proto3" json:"MarketplaceOwner,omitempty"`
 	MarketplaceUser  string `protobuf:"bytes,3,opt,name=MarketplaceUser,proto3" json:"MarketplaceUser,omitempty"`
+	Project  		 string `protobuf:"bytes,4,opt,name=Project,proto3" json:"Project,omitempty"`
+	Venue  			 string `protobuf:"bytes,5,opt,name=Venue,proto3" json:"Venue,omitempty"`
 }
 
 func (x *Config_ApplicationConfig) Reset() {
@@ -1032,6 +1034,20 @@ func (x *Config_ApplicationConfig) GetMarketplaceOwner() string {
 func (x *Config_ApplicationConfig) GetMarketplaceUser() string {
 	if x != nil {
 		return x.MarketplaceUser
+	}
+	return ""
+}
+
+func (x *Config_ApplicationConfig) GetProject() string {
+	if x != nil {
+		return x.Project
+	}
+	return ""
+}
+
+func (x *Config_ApplicationConfig) GetVenue() string {
+	if x != nil {
+		return x.Venue
 	}
 	return ""
 }
