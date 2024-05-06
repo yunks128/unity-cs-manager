@@ -78,6 +78,8 @@ message Config {
     string GithubToken = 1;
     string MarketplaceOwner = 2;
     string MarketplaceUser = 3;
+    string Project = 4;
+    string Venue = 5;
   }
 
   message NetworkConfig {
