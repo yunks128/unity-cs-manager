@@ -1013,9 +1013,9 @@ func (x *Config_ApplicationConfig) ProtoReflect() protoreflect.Message {
 }
 
 // Deprecated: Use Config_ApplicationConfig.ProtoReflect.Descriptor instead.
-func (*Config_ApplicationConfig) Descriptor() ([]byte, []int) {
-	return file_extensions_proto_rawDescGZIP(), []int{8, 0}
-}
+// func (*Config_ApplicationConfig) Descriptor() ([]byte, []int) {
+// 	return file_extensions_proto_rawDescGZIP(), []int{8, 0}
+// }
 
 func (x *Config_ApplicationConfig) GetGithubToken() string {
 	if x != nil {
