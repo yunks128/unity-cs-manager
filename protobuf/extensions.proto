@@ -63,6 +63,7 @@ message Uninstall{
   string Application = 2;
   string DisplayName = 4;
   bool All = 3;
+  bool DeleteBucket = 5;
 }
 
 message SimpleMessage {
